@@ -1,0 +1,101 @@
+@charset "utf-8";
+
+// Import a Google Font
+@import url('https://fonts.googleapis.com/css?family=Mansalva:400,700');
+@import url('https://fonts.googleapis.com/css?family=Oxygen:400,700');
+
+// Set your brand colors
+// $purple: #8a4d76;
+// $pink: #fa7c91;
+// $brown: #757763;
+// $beige-light: #d0d1cd;
+// $beige-lighter: #eff0eb;
+
+// Update Bulma's global variables
+$family-sans-serif: 'Oxygen', sans-serif;
+// $grey-dark: $brown;
+// $grey-light: $beige-light;
+// $primary: $purple;
+// $link: $pink;
+$widescreen-enabled: false;
+$fullhd-enabled: false;
+
+// Update some of Bulma's component variables
+// $body-background-color: $beige-lighter;
+$control-border-width: 2px;
+// $input-border-color: transparent;
+// $input-shadow: none;
+
+// Import only what you need from Bulma
+@import 'bulma/bulma';
+
+$sizes: (0,10,15,20,25,30,50);
+$positions: (
+    ('t', 'top'),
+    ('r', 'right'),
+    ('b', 'bottom'),
+    ('l', 'left')
+);
+.app {
+  min-height: 100vh;
+}
+.login-wrapper {
+  height: calc(100vh - 100px);
+}
+@each $size in $sizes {
+  .m-#{$size} {
+    margin: $size + px;
+  }
+  .p-#{$size} {
+    padding: $size + px;
+  }
+
+  @each $position in $positions {
+    $posKey: nth($position, 1);
+    $posValue: nth($position, 2);
+    .m-#{$posKey}-#{$size} {
+        margin-#{$posValue}: $size + px !important;
+    }
+    .p-#{$posKey}-#{$size} {
+        padding-#{$posValue}: $size + px !important;
+    }
+  }
+}
+
+#form-section { 
+  label{
+    text-align: left;
+  }
+  .nav-button, .form-title {
+    text-transform: capitalize;
+  }
+}
+header .navbar-brand{
+  font-family: 'Mansalva';
+}
+section > div:nth-of-type(1) {
+  font-family: 'Mansalva';
+}
+.contact, .experience .is-grouped {
+  box-shadow: 1px 1px 7px -1px;
+}
+
+.experience {
+  button.button.is-danger {
+    position: absolute;
+    right: -31px;
+  }
+  div {
+    position: relative;
+  }
+}
+@media print {
+  .no-print {
+    display: none;
+  }
+  #preview-section {
+    width: 100%;
+  }
+}
+// Templates
+@import './templates/design1.scss';

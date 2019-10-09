@@ -1,0 +1,56 @@
+$design1Color: #50e3c2;
+.title.name,
+.title.position {
+  color: $design1Color;
+}
+
+#preview-section {
+  .box {
+    padding: 50px;
+  }
+  .experience-wrapper, .objective-section, .contact-section {
+    border-bottom: dotted 3px $design1Color;
+    padding-bottom: 40px;
+    margin-bottom: 40px;
+  }
+  .contact-section {
+    display: flex;
+    align-items: center;
+    border-bottom: dotted 3px $design1Color;
+    padding-bottom: 40px;
+    margin-bottom: 40px;
+    height: 300px;
+    justify-content: space-between;
+    .contact-info-wrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      & > div {
+        display: flex;
+        align-items: center;
+      }
+      .title,
+      span {
+        display: inline-block;
+      }
+      .title {
+        margin-right: 20px;
+        margin-bottom: 0;
+        flex-basis: 15%;
+        text-align: right;
+      }
+      span:last-of-type {
+        width: 60%;
+        text-align: left;
+      }
+    }
+  }
+  .experience-wrapper {
+    .position{
+      margin-bottom: 15px;
+    }
+    &:not(:last-of-type) {
+      margin-bottom: 40px;
+    }
+  }
+}

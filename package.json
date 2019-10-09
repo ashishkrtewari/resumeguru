@@ -1,0 +1,22 @@
+{
+  "name": "resumeguru",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently \"npm run start --prefix server\" \"npm run start --prefix client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ashishkrtewari/resumeguru.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ashishkrtewari/resumeguru/issues"
+  },
+  "homepage": "https://github.com/ashishkrtewari/resumeguru#readme",
+  "dependencies": {
+    "concurrently": "^5.0.0"
+  }
+}
