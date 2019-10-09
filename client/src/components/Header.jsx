@@ -43,7 +43,7 @@ export default class Header extends React.Component {
                     <strong>Sign up</strong>
                   </div>
                   <div className="button is-light" onClick={this.handleLoginLogout.bind(this)}>
-                    {this.props.user.name ? "LogOut" : "LogIn"}
+                    {this.props.user.name ? "Log out" : "Log in"}
                   </div>
                 </div>
               </div>

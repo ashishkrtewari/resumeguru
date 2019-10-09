@@ -1,12 +1,12 @@
 import React from "react";
-import "./App.css";
+import "./styles/App.css";
 import Header from "./components/Header";
 import Login from "./components/login";
 import SectionWrapper from "./components/SectionsWrapper";
 import FormSection from "./components/FormSection";
 import PreviewSection from "./components/PreviewSection";
 import { Sections } from "./lists";
-import "./App.scss";
+import "./styles/App.scss";
 
 class App extends React.Component {
   constructor(props) {

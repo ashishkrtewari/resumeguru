@@ -22,7 +22,9 @@ const UserType = new GraphQLObjectType({
     address: {type: GraphQLString},
     phone: {type: GraphQLString},
     objective: {type: GraphQLString},
-    experience: [experienceType]
+    experience: {
+      type: experienceType
+    }
   })
 }) 
 
