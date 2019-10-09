@@ -1,8 +1,14 @@
-const graphql = require('graphql');
-const User = require('../models/user');
+import * as graphql from "graphql";
+import User from "../models/user";
 
-const { GraphQLObjectType, GraphQLString, GraphQLSchema, GraphQLList} = graphql;
+const { 
+  GraphQLObjectType,
+  GraphQLString,
+  GraphQLSchema,
+  GraphQLList,
+  GraphQLInputObjectType} = graphql;
 
+// ExperienceType
 const experienceType = new GraphQLObjectType({
   name: 'experience',
   fields: () => ({
@@ -14,6 +20,21 @@ const experienceType = new GraphQLObjectType({
     description: {type: GraphQLString}
   })
 })
+const experienceInput = new GraphQLInputObjectType({
+  name: 'experienceInput',
+  fields: () => ({
+      position: {type: GraphQLString},
+      name: {type: GraphQLString},
+      location: {type: GraphQLString},
+      start: {type: GraphQLString},
+      end: {type: GraphQLString},
+      description: {type: GraphQLString}
+  })
+})
+// Experience List Type
+const experienceListType = new GraphQLList(experienceType);
+
+// User Type
 const UserType = new GraphQLObjectType({
   name: 'User',
   fields: () => ({
@@ -23,7 +44,7 @@ const UserType = new GraphQLObjectType({
     phone: {type: GraphQLString},
     objective: {type: GraphQLString},
     experience: {
-      type: experienceType
+      type: experienceListType
     }
   })
 }) 
@@ -65,11 +86,16 @@ const Mutation = new GraphQLObjectType({
       type: UserType,
       args: {
         name: {type: GraphQLString},
+        email: {type: GraphQLString},
+        address: {type: GraphQLString},
+        phone: {type: GraphQLString},
+        objective: {type: GraphQLString},
+        experience: {
+          type: new GraphQLList(experienceInput)
+        }
       },
       resolve(parent, args) {
-        let user = new User({
-          name: args.name
-        })
+        let user = new User(args)
         return user.save();
       }
     },
@@ -85,7 +111,7 @@ const Mutation = new GraphQLObjectType({
   }
 })
 
-module.exports = new GraphQLSchema({
+export default new GraphQLSchema({
   query: RootQuery,
   mutation: Mutation
 })

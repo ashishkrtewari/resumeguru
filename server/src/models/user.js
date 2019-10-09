@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import * as mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const experienceSchema = new Schema({
@@ -18,4 +18,4 @@ const userSchema = new Schema({
   experience: [experienceSchema]
 });
 
-module.exports = mongoose.model("User", userSchema);
+export default mongoose.model("User", userSchema);
