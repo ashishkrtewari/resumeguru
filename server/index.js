@@ -27,6 +27,11 @@ app.use(function(req, res, next) {
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+app.use("/graphql", graphqlHTTP({
+  schema,
+  graphiql: true
+}));
+
 app.listen(PORT, () => {
   console.log("vuePress running on port :", PORT);
 });
