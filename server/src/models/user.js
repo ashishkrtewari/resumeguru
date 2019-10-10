@@ -9,13 +9,19 @@ const experienceSchema = new Schema({
   end: { type: String },
   description: { type: String }
 });
-const userSchema = new Schema({
+const resumeSchema = new Schema({
   name: { type: String },
   email: { type: String },
   address: { type: String },
   phone: { type: String },
   objective: { type: String },
   experience: [experienceSchema]
+})
+const userSchema = new Schema({
+  name: { type: String },
+  email: { type: String },
+  password: { type: String },
+  resumes: [resumeSchema]
 });
 
 export default mongoose.model("User", userSchema);

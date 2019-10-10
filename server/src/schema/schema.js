@@ -1,7 +1,17 @@
 import * as graphql from "graphql";
 import User from "../models/user";
+import {
+  ExperienceType,
+  ExperienceListType,
+  ExperienceInput,
+  ResumeType,
+  ResumesType,
+  ResumeInput,
+  UserType,
+  UsersType
+} from "./graphQLTypes";
 
-const { 
+const {
   GraphQLObjectType,
   GraphQLString,
   GraphQLSchema,
@@ -9,49 +19,6 @@ const {
   GraphQLInputObjectType,
   GraphQLNonNull
 } = graphql;
-
-// ExperienceType
-const experienceType = new GraphQLObjectType({
-  name: 'experience',
-  fields: () => ({
-    position: {type: GraphQLString},
-    name: {type: GraphQLString},
-    location: {type: GraphQLString},
-    start: {type: GraphQLString},
-    end: {type: GraphQLString},
-    description: {type: GraphQLString}
-  })
-})
-const experienceInput = new GraphQLInputObjectType({
-  name: 'experienceInput',
-  fields: () => ({
-      position: {type: GraphQLString},
-      name: {type: GraphQLString},
-      location: {type: GraphQLString},
-      start: {type: GraphQLString},
-      end: {type: GraphQLString},
-      description: {type: GraphQLString}
-  })
-})
-// Experience List Type
-const experienceListType = new GraphQLList(experienceType);
-
-// User Type
-const UserType = new GraphQLObjectType({
-  name: 'User',
-  fields: () => ({
-    name: {type: GraphQLString},
-    email: {type: GraphQLString},
-    address: {type: GraphQLString},
-    phone: {type: GraphQLString},
-    objective: {type: GraphQLString},
-    experience: {
-      type: experienceListType
-    }
-  })
-}) 
-
-const UsersType = new GraphQLList(UserType);
 
 const RootQuery = new GraphQLObjectType({
   name: "RootQuery",
@@ -64,18 +31,18 @@ const RootQuery = new GraphQLObjectType({
     },
     userById: {
       type: UserType,
-      args: {id: {type : GraphQLString}},
+      args: { id: { type: GraphQLString } },
       resolve(parent, args) {
         // Code to fetch from database.
-        return User.findOne({id: args.id});
+        return User.findOne({ id: args.id });
       }
     },
     userByName: {
       type: UserType,
-      args: {name: {type : GraphQLString}},
+      args: { name: { type: GraphQLString } },
       resolve(parent, args) {
         // Code to fetch from database.
-        return User.findOne({name: args.name});
+        return User.findOne({ name: args.name });
       }
     }
   }
@@ -87,13 +54,11 @@ const Mutation = new GraphQLObjectType({
     addUser: {
       type: UserType,
       args: {
-        name: {type: new GraphQLNonNull(GraphQLString)},
-        email: {type: new GraphQLNonNull(GraphQLString)},
-        address: {type: GraphQLString},
-        phone: {type: GraphQLString},
-        objective: {type: GraphQLString},
-        experience: {
-          type: new GraphQLList(experienceInput)
+        name: { type: new GraphQLNonNull(GraphQLString) },
+        email: { type: new GraphQLNonNull(GraphQLString) },
+        password: { type: new GraphQLNonNull(GraphQLString) },
+        resumes: {
+          type: new GraphQLList(ResumeInput)
         }
       },
       resolve(parent, args) {
@@ -104,10 +69,10 @@ const Mutation = new GraphQLObjectType({
     deleteUser: {
       type: UserType,
       args: {
-        name: {type: GraphQLString}
+        name: { type: GraphQLString }
       },
       resolve(parent, args) {
-        return User.findOneAndDelete({name: args.name});
+        return User.findOneAndDelete({ name: args.name });
       }
     }
   }
