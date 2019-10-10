@@ -14,79 +14,81 @@ class App extends React.Component {
 
     this.state = {
       sections: Sections.map(section => ({ title: section, switch: false })),
-      name: "Ashish Tewari",
-      email: "ashishtewaripro@gmail.com",
-      address: "MD 53 sector D L.D.A. colony Kanpur road Lucknow, Uttar Pradesh: 226012 India",
-      phone: "9953075422",
-      objective: "",
-      experience: [this.experienceType],
       activeForm: "contact",
-      user: {
-        name: ""
-      },
-      mockData: {
-        username: "ashish",
-        password: "cap"
-      }
+      user: null,
+      selectedResume: 0
     };
   }
   experienceType = {
-    position: "Developer",
-    name: "Wipro",
-    location: "Pune",
-    start: "Sept, 2019",
-    end: "Sept 2020",
-    description: "Lead offshore development team for a Backbone JS to Vue JS migration project for a major medical insurance services client in the USA.    My responsibilities :    Connect with the major stakeholders on the client side to gather requirements and have discussions to plan each sprint, ensuring timely delivery and high code quality.     Mentoring Junior developers and so code reviews.    Have technical discussions with the client-side technical team to create development strategies and suggest improvements."
-  }
+    position: "",
+    name: "",
+    location: "",
+    start: "",
+    end: "",
+    description: ""
+  };
   handleStateUpdate(prop, payload) {
     this.setState({ [prop]: payload });
   }
   handleExperienceUpdate(type, index, payload) {
-    const experience = this.state.experience.map((item, i) => {
+    const user = {...this.state.user};
+    user.resumes[this.state.selectedResume].experience = this.state.user.resumes[
+      this.state.selectedResume
+    ].experience.map((item, i) => {
       if (index === i) {
         item[type] = payload;
       }
       return item;
     });
-    this.setState({ experience });
+    this.setState({ user });
   }
   addExperience() {
-    const experience = [...this.state.experience, {...this.experienceType}];
-    this.setState({experience});
+    const user = {...this.state.user};
+    user.resumes[this.state.selectedResume].experience = [
+      ...this.state.user.resumes[this.state.selectedResume].experience,
+      { ...this.experienceType }
+    ];
+    
+    this.setState({ user });
   }
   removeExperience(index) {
-    const experience = [...this.state.experience].filter((item, i) => i !== index);
-    this.setState({experience});
+    const user = {...this.state.user};
+    user.resumes[this.state.selectedResume].experience = [
+      ...this.state.resumes[this.state.selectedResume].experience
+    ].filter((item, i) => i !== index);
+    this.setState({ user });
   }
   switchForm(activeForm) {
-    this.setState({activeForm});
+    this.setState({ activeForm });
   }
   render() {
-    if(!this.state.user.name) {
+    if (!this.state.user) {
       return (
         <div className="App">
-          <Header {...this.state}/>
-          <Login {...this.state} handleStateUpdate={this.handleStateUpdate.bind(this)}/>
+          <Header {...this.state} />
+          <Login
+            {...this.props}
+            handleStateUpdate={this.handleStateUpdate.bind(this)}
+          />
         </div>
       );
     }
     return (
       <div className="App">
-        <Header {...this.state} handleStateUpdate={this.handleStateUpdate.bind(this)}/>
+        <Header
+          {...this.state}
+          handleStateUpdate={this.handleStateUpdate.bind(this)}
+        />
         <section className="columns">
-          {false ? (
-            <SectionWrapper sections={this.state.sections} />
-          ) : (
-            <FormSection
-              {...this.state}
-              addExperience={this.addExperience.bind(this)}
-              handleExperienceUpdate={this.handleExperienceUpdate.bind(this)}
-              handleStateUpdate={this.handleStateUpdate.bind(this)}
-              removeExperience={this.removeExperience.bind(this)}
-              switchForm={this.switchForm.bind(this)}
-            />
-          )}
-          <PreviewSection {...this.state} />
+          <FormSection
+            {...this.state}
+            addExperience={this.addExperience.bind(this)}
+            handleExperienceUpdate={this.handleExperienceUpdate.bind(this)}
+            handleStateUpdate={this.handleStateUpdate.bind(this)}
+            removeExperience={this.removeExperience.bind(this)}
+            switchForm={this.switchForm.bind(this)}
+          />
+          <PreviewSection {...this.state.user.resumes[this.state.selectedResume]} />
         </section>
       </div>
     );

@@ -6,6 +6,7 @@ const getUserQuery = gql`
 {
   users {
     name
+    email
     password
   }
 }`
@@ -14,20 +15,20 @@ class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: "",
+      email: "ashishtewaripro@gmail.com",
       password: "",
       error: false,
       submitted: false
     }
   }
   isLoading = false;
-  handleFormSubmit(event) {
+  async handleFormSubmit(event) {
     event.preventDefault();
     this.isLoading = true;
     this.setState({submitted: true});
     let error = false;
     let login = true;
-    if (!this.state.username) {
+    if (!this.state.email) {
       error = true;
     } else {
       error = false;
@@ -38,13 +39,46 @@ class Login extends React.Component {
       error = false;
     }
     if (!error) {
+      var data = this.props.data;
+      var matchedUser = []
+      if (data && data.users) {
+        matchedUser = data.users.filter((item) => item.email === this.state.email && item.password === this.state.password);
+      }
       if (
-        this.state.username === this.props.mockData.username &&
-        this.state.password === this.props.mockData.password
+        matchedUser.length
       ) {
         error = false
-        login = true;        
-        this.props.handleStateUpdate('user', {name: this.state.username});
+        login = true;
+        var user = await this.props.client
+        .query({
+          query: gql`
+          query userByEmail($email: String){
+            userByEmail(email: $email) {
+              name
+              email
+              resumes {
+                name
+                email
+                address
+                phone
+                objective
+                experience {
+                  position
+                  name
+                  location
+                  start
+                  end
+                  description
+                }
+              }
+            }
+          }`,
+          variables: {
+            email: this.state.email
+          }
+        });
+        console.log(user);
+        this.props.handleStateUpdate('user', user.data.userByEmail)
       } else {
         error = true;
         login = false;
@@ -65,11 +99,11 @@ class Login extends React.Component {
           <h2 className="title is-3">Welcome</h2>
           <form onSubmit={(event) => this.handleFormSubmit(event)}>
             <div className="field">
-              <label className={"label has-text-left"}>Username</label>
+              <label className={"label has-text-left"}>email</label>
               <div className="control">
-                <input className={"input " + (this.renderErrorMsg('username') ? 'is-danger' : '')} value={this.state.username} onChange={(event) => { this.setState({ username: event.target.value }) }} type="text" placeholder="e.g johndoe" />
+                <input className={"input " + (this.renderErrorMsg('email') ? 'is-danger' : '')} value={this.state.email} onChange={(event) => { this.setState({ email: event.target.value }) }} type="email" placeholder="e.g johndoe" />
               </div>
-              {this.renderErrorMsg('username')}
+              {this.renderErrorMsg('email')}
             </div>
             <div className="field">
               <label className="label has-text-left">Password</label>

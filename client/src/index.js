@@ -4,18 +4,20 @@ import './styles/index.css'
 import App from './App'
 
 import { ApolloProvider } from 'react-apollo'
-import ApolloClient from 'apollo-boost'
-// import { createHttpLink } from 'apollo-link-http'
-// import { InMemoryCache } from 'apollo-cache-inmemory'
+import { ApolloClient } from 'apollo-client';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import { HttpLink } from 'apollo-link-http';
 
-// const httpLink = createHttpLink({
-//     uri: 'http://localhost:5000/graphql'
-// })
+const cache = new InMemoryCache();
+const link = new HttpLink({
+  uri: 'http://localhost:5000/graphql'
+});
+
 const client = new ApolloClient({
-    uri: 'http://localhost:5000/graphql'
-})
-
+  cache,
+  link
+});
 ReactDOM.render(
     <ApolloProvider client={client}>
-        <App />
+        <App client={client} />
     </ApolloProvider>, document.getElementById('root'));

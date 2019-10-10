@@ -6,8 +6,8 @@ export default class Header extends React.Component {
     this.title = this.props.title;
   }
   handleLoginLogout() {
-    if (this.props.user.name) {
-      this.props.handleStateUpdate("user", {name: ""});
+    if (this.props.user) {
+      this.props.handleStateUpdate("user", null);
     } else {
       
     }
@@ -43,7 +43,7 @@ export default class Header extends React.Component {
                     <strong>Sign up</strong>
                   </div>
                   <div className="button is-light" onClick={this.handleLoginLogout.bind(this)}>
-                    {this.props.user.name ? "Log out" : "Log in"}
+                    {this.props.user ? "Log out" : "Log in"}
                   </div>
                 </div>
               </div>

@@ -13,8 +13,8 @@ export const Sections = [
   "Custom"
 ];
 export const errors = {
-  loginError: "Username or Password is Incorrect",
-  usernameError: "Please enter a Username",
+  loginError: "Email or Password is Incorrect",
+  emailError: "Please enter an Email",
   passwordError: "Please enter a Password"
 }
 

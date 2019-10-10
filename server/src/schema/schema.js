@@ -29,12 +29,12 @@ const RootQuery = new GraphQLObjectType({
         return User.find();
       }
     },
-    userById: {
+    userByEmail: {
       type: UserType,
-      args: { id: { type: GraphQLString } },
+      args: { email: { type: GraphQLString } },
       resolve(parent, args) {
         // Code to fetch from database.
-        return User.findOne({ id: args.id });
+        return User.findOne({ email: args.email });
       }
     },
     userByName: {
