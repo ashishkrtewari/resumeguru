@@ -6,7 +6,9 @@ const {
   GraphQLString,
   GraphQLSchema,
   GraphQLList,
-  GraphQLInputObjectType} = graphql;
+  GraphQLInputObjectType,
+  GraphQLNonNull
+} = graphql;
 
 // ExperienceType
 const experienceType = new GraphQLObjectType({
@@ -85,8 +87,8 @@ const Mutation = new GraphQLObjectType({
     addUser: {
       type: UserType,
       args: {
-        name: {type: GraphQLString},
-        email: {type: GraphQLString},
+        name: {type: new GraphQLNonNull(GraphQLString)},
+        email: {type: new GraphQLNonNull(GraphQLString)},
         address: {type: GraphQLString},
         phone: {type: GraphQLString},
         objective: {type: GraphQLString},

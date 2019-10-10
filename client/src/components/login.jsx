@@ -1,7 +1,16 @@
 import React from "react";
 import { errors } from "../lists";
+import { gql } from "apollo-boost";
+import { graphql } from "react-apollo";
+const getUserQuery = gql`
+{
+  users {
+    name
+    password
+  }
+}`
 
-export default class Login extends React.Component {
+class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -77,3 +86,5 @@ export default class Login extends React.Component {
     )
   }
 }
+
+export default graphql(getUserQuery)(Login);
