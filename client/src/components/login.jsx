@@ -95,11 +95,14 @@ class Login extends React.Component {
   render() {
     return (
       <div className="login-wrapper columns is-centered is-vcentered">
-        <div className="login-container box column is-4">
-          <h2 className="title is-3">Welcome</h2>
+      <div className="column is-2 login-desc-box">
+          <h2> Welcome Resume Guru</h2>
+          <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</p>
+      </div>
+        <div className="login-container box column is-3">         
           <form onSubmit={(event) => this.handleFormSubmit(event)}>
             <div className="field">
-              <label className={"label has-text-left"}>email</label>
+              <label className={"label has-text-left"}>Email</label>
               <div className="control">
                 <input className={"input " + (this.renderErrorMsg('email') ? 'is-danger' : '')} value={this.state.email} onChange={(event) => { this.setState({ email: event.target.value }) }} type="email" placeholder="e.g johndoe" />
               </div>

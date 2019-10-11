@@ -19,7 +19,7 @@ export default class Header extends React.Component {
         <nav className="navbar p-l-20 p-r-20 p-t-10 p-b-10" role="navigation" aria-label="main navigation">
           <div className="navbar-brand">
             <div className="navbar-item">
-              <h1 className="title">{this.title || "Resume Guru"}</h1>
+              <h1 className="title"><span>Resume</span>{this.title || " Guru"}</h1>
             </div>
 
             <div role="button" className="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
