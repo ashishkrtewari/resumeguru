@@ -25,9 +25,8 @@ $design1Color: #50e3c2;
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
-      & > div {
-        display: flex;
-        align-items: center;
+      & > div span:first-of-type {
+        min-width: 100px;
       }
       .title,
       span {
