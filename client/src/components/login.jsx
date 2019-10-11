@@ -48,7 +48,6 @@ class Login extends React.Component {
             email: this.state.email
           }
         });
-        console.log(user);
         this.props.handleStateUpdate('user', user.data.userByEmail)
       } else {
         error = true;

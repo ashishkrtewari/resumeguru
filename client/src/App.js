@@ -5,7 +5,7 @@ import Login from "./components/login";
 import FormSection from "./components/FormSection";
 import PreviewSection from "./components/PreviewSection";
 import { Sections } from "./lists";
-import { updateUser } from "./queries";
+import { updateUserMutation } from "./queries";
 
 class App extends React.Component {
   constructor(props) {
@@ -29,32 +29,43 @@ class App extends React.Component {
   handleStateUpdate(prop, payload) {
     this.setState({ [prop]: payload });
   }
-  handleExperienceUpdate(type, index, payload) {
-    const user = {...this.state.user};
-    user.resumes[this.state.selectedResume].experience = this.state.user.resumes[
+  async handleExperienceUpdate(type, index, payload) {
+    let user = {...this.state.user};
+    user.resumes[this.state.selectedResume].experience = [...this.state.user.resumes[
       this.state.selectedResume
-    ].experience.map((item, i) => {
+    ].experience].map((item, i) => {
       if (index === i) {
         item[type] = payload;
       }
       return item;
     });
+    user = (await this.props.client.mutate({
+      mutation: updateUserMutation,
+      variables: { user }
+    }))['data']['updateUser'];
     this.setState({ user });
   }
-  addExperience() {
-    const user = {...this.state.user};
+  async addExperience() {
+    let user = {...this.state.user};
     user.resumes[this.state.selectedResume].experience = [
       ...this.state.user.resumes[this.state.selectedResume].experience,
       { ...this.experienceType }
     ];
-    
+    user = (await this.props.client.mutate({
+      mutation: updateUserMutation,
+      variables: { user }
+    }))['data']['updateUser'];
     this.setState({ user });
   }
-  removeExperience(index) {
-    const user = {...this.state.user};
+  async removeExperience(index) {
+    let user = {...this.state.user};
     user.resumes[this.state.selectedResume].experience = [
-      ...this.state.resumes[this.state.selectedResume].experience
+      ...this.state.user.resumes[this.state.selectedResume].experience
     ].filter((item, i) => i !== index);
+    user = (await this.props.client.mutate({
+      mutation: updateUserMutation,
+      variables: { user }
+    }))['data']['updateUser'];
     this.setState({ user });
   }
   switchForm(activeForm) {

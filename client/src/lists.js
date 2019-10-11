@@ -19,3 +19,27 @@ export const errors = {
 }
 
 export const formList = ["contact", "objective", "experience"];
+
+export const UserInput = {
+  "name": "",
+  "email": "",
+  "resumes": [
+    {
+      "name": "",
+      "email": "",
+      "address": "",
+      "phone": "",
+      "objective": "",
+      "experience": [
+        {
+          "position": "",
+          "name": "",
+          "location": "",
+          "start": "",
+          "end": "",
+          "description": ""
+        }
+      ]
+    }
+  ]
+}

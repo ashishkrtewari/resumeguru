@@ -33,7 +33,7 @@ export const getUserQuery = gql`
 }`;
 
 export const updateUserMutation = gql`
-mutation updateUser($user: String){
+mutation updateUser($user: UserInput){
   updateUser(user: $user) {
     name
     email
