@@ -5,6 +5,7 @@ import Login from "./components/login";
 import FormSection from "./components/FormSection";
 import PreviewSection from "./components/PreviewSection";
 import { Sections } from "./lists";
+import { updateUser } from "./queries";
 
 class App extends React.Component {
   constructor(props) {
