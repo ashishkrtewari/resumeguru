@@ -48,8 +48,7 @@ const Mutation = new GraphQLObjectType({
       args: {
         user: {type: UserInput}
       },
-      resolve(parent, args) {
-        const { user } = args;
+      resolve(parent, { user }) {
         let newUser = new User(user)
         return newUser.save();
       }
@@ -59,9 +58,9 @@ const Mutation = new GraphQLObjectType({
       args: {
         user: {type: UserInput}
       },
-      async resolve(parent, args) {
-        const { user } = args;
-        return await User.findOneAndUpdate({email: user.email}, user)
+        async resolve(parent, { user }) {
+        await User.findOneAndUpdate({email: user.email}, user)
+        return await User.findOne({ email: user.email });
       }
     },
     deleteUser: {
