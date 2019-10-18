@@ -106,7 +106,6 @@ export default class FormSection extends React.Component {
                 </div>
               </div>
             ))}
-            <button type="button" className="button is-primary m-20" onClick={this.props.addExperience}>Add Experience</button>
           </div>
         );
       default: 
@@ -137,7 +136,13 @@ export default class FormSection extends React.Component {
           {this.props.activeForm}
         </div>
         {this.renderForm(this.props.activeForm)}
-        {this.renderNav(this.props.activeForm)}        
+        <div className="save-section columns is-centered">
+          <button type="button" className={"button m-20 " + (this.props.saving ? "is-loading" : "is-primary")} onClick={this.props.save}>Save</button>
+          {
+            this.props.activeForm === "experience" ? <button type="button" className="button is-primary m-20" onClick={this.props.addExperience}>Add Experience</button> : ""
+          }
+        </div>
+        {this.renderNav(this.props.activeForm)}
       </section>
     )
   }

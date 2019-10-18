@@ -41,14 +41,6 @@ class Login extends React.Component {
       ) {
         error = false
         login = true;
-        var user = await this.props.client
-        .query({
-          query: getUserByEmail,
-          variables: {
-            email: this.state.email
-          }
-        });
-        this.props.handleStateUpdate('user', user.data.userByEmail)
       } else {
         error = true;
         login = false;
@@ -56,6 +48,16 @@ class Login extends React.Component {
     }
     this.setState({login});
     this.setState({error});
+    if(login && !error) {
+      var user = await this.props.client
+        .query({
+          query: getUserByEmail,
+          variables: {
+            email: this.state.email
+          }
+        });
+        this.props.handleStateUpdate('user', user.data.userByEmail)
+    }
     this.isLoading = false;
   }
   renderErrorMsg(type) {

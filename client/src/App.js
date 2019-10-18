@@ -15,7 +15,8 @@ class App extends React.Component {
       sections: Sections.map(section => ({ title: section, switch: false })),
       activeForm: "contact",
       user: null,
-      selectedResume: 0
+      selectedResume: 0,
+      saving: false
     };
   }
   experienceType = {
@@ -29,7 +30,7 @@ class App extends React.Component {
   handleStateUpdate(prop, payload) {
     this.setState({ [prop]: payload });
   }
-  async handleExperienceUpdate(type, index, payload) {
+  handleExperienceUpdate(type, index, payload) {
     let user = {...this.state.user};
     user.resumes[this.state.selectedResume].experience = [...this.state.user.resumes[
       this.state.selectedResume
@@ -39,33 +40,31 @@ class App extends React.Component {
       }
       return item;
     });
-    user = (await this.props.client.mutate({
-      mutation: updateUserMutation,
-      variables: { user }
-    }))['data']['updateUser'];
     this.setState({ user });
   }
-  async addExperience() {
+  addExperience() {
     let user = {...this.state.user};
     user.resumes[this.state.selectedResume].experience = [
       ...this.state.user.resumes[this.state.selectedResume].experience,
       { ...this.experienceType }
     ];
+    this.setState({ user });
+  }
+  async save() {
+    let user = {...this.state.user};
+    this.setState({saving: true});
     user = (await this.props.client.mutate({
       mutation: updateUserMutation,
       variables: { user }
     }))['data']['updateUser'];
+    this.setState({saving: false});
     this.setState({ user });
   }
-  async removeExperience(index) {
+  removeExperience(index) {
     let user = {...this.state.user};
     user.resumes[this.state.selectedResume].experience = [
       ...this.state.user.resumes[this.state.selectedResume].experience
     ].filter((item, i) => i !== index);
-    user = (await this.props.client.mutate({
-      mutation: updateUserMutation,
-      variables: { user }
-    }))['data']['updateUser'];
     this.setState({ user });
   }
   switchForm(activeForm) {
@@ -97,6 +96,7 @@ class App extends React.Component {
             handleStateUpdate={this.handleStateUpdate.bind(this)}
             removeExperience={this.removeExperience.bind(this)}
             switchForm={this.switchForm.bind(this)}
+            save={this.save.bind(this)}
           />
           <PreviewSection {...this.state.user.resumes[this.state.selectedResume]} />
         </section>
