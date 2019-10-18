@@ -1,23 +1,15 @@
 import * as graphql from "graphql";
 import User from "../models/user";
 import {
-  ExperienceType,
-  ExperienceListType,
-  ExperienceInput,
-  ResumeType,
-  ResumesType,
-  ResumeInput,
   UserType,
-  UsersType
+  UsersType,
+  UserInput
 } from "./graphQLTypes";
 
 const {
   GraphQLObjectType,
   GraphQLString,
-  GraphQLSchema,
-  GraphQLList,
-  GraphQLInputObjectType,
-  GraphQLNonNull
+  GraphQLSchema
 } = graphql;
 
 const RootQuery = new GraphQLObjectType({
@@ -54,16 +46,21 @@ const Mutation = new GraphQLObjectType({
     addUser: {
       type: UserType,
       args: {
-        name: { type: new GraphQLNonNull(GraphQLString) },
-        email: { type: new GraphQLNonNull(GraphQLString) },
-        password: { type: new GraphQLNonNull(GraphQLString) },
-        resumes: {
-          type: new GraphQLList(ResumeInput)
-        }
+        user: {type: UserInput}
       },
-      resolve(parent, args) {
-        let user = new User(args)
-        return user.save();
+      resolve(parent, { user }) {
+        let newUser = new User(user)
+        return newUser.save();
+      }
+    },
+    updateUser: {
+      type: UserType,
+      args: {
+        user: {type: UserInput}
+      },
+        async resolve(parent, { user }) {
+        await User.findOneAndUpdate({email: user.email}, user)
+        return await User.findOne({ email: user.email });
       }
     },
     deleteUser: {

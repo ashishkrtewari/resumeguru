@@ -82,3 +82,15 @@ export const UserType = new GraphQLObjectType({
 })
 
 export const UsersType = new GraphQLList(UserType);
+
+export const UserInput = new GraphQLInputObjectType ({
+    name: 'UserInput',
+    fields: () => ({
+        name: { type: GraphQLString },
+        email: { type: new GraphQLNonNull(GraphQLString) },
+        password: { type: GraphQLString },
+        resumes: {
+        type: new GraphQLList(ResumeInput)
+        }
+    })
+});

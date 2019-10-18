@@ -8,6 +8,11 @@ export default class FormSection extends React.Component {
     let value = event.target.value;
     this.props.handleStateUpdate(type, value);
   }
+  handleResumeUpdate(type, event) {
+    const user = {...this.props.user};
+    user.resumes[this.props.selectedResume][type] = event.target.value;
+    this.props.handleStateUpdate('user', user);
+  }
   handleExperienceUpdate(type, index, event) {
     let value = event.target.value;
     this.props.handleExperienceUpdate(type, index, value);
@@ -23,25 +28,25 @@ export default class FormSection extends React.Component {
             <div className="field">
               <label className="label">Name</label>
               <div className="control">
-                <input className="input" value={this.props.user.resumes[this.props.selectedResume].name} onChange={this.handleInput.bind(this, 'name')} type="text" placeholder="e.g Alex Smith" />
+                <input className="input" value={this.props.user.resumes[this.props.selectedResume].name} onChange={this.handleResumeUpdate.bind(this, 'name')} type="text" placeholder="e.g Alex Smith" />
               </div>
             </div>
             <div className="field">
               <label className="label">Email</label>
               <div className="control">
-                <input className="input" value={this.props.user.resumes[this.props.selectedResume].email} onChange={this.handleInput.bind(this, 'email')} type="email" placeholder="e.g. alexsmith@gmail.com" />
+                <input className="input" value={this.props.user.resumes[this.props.selectedResume].email} onChange={this.handleResumeUpdate.bind(this, 'email')} type="email" placeholder="e.g. alexsmith@gmail.com" />
               </div>
             </div>
             <div className="field">
               <label className="label">Address</label>
               <div className="control">
-                <input className="input" value={this.props.user.resumes[this.props.selectedResume].address} onChange={this.handleInput.bind(this, 'address')} type="address" placeholder="e.g. Road, City, State, Country" />
+                <input className="input" value={this.props.user.resumes[this.props.selectedResume].address} onChange={this.handleResumeUpdate.bind(this, 'address')} type="address" placeholder="e.g. Road, City, State, Country" />
               </div>
             </div>
             <div className="field">
               <label className="label">Phone</label>
               <div className="control">
-                <input className="input" value={this.props.user.resumes[this.props.selectedResume].phone} onChange={this.handleInput.bind(this, 'phone')} type="phone" placeholder="e.g. 0000000000" />
+                <input className="input" value={this.props.user.resumes[this.props.selectedResume].phone} onChange={this.handleResumeUpdate.bind(this, 'phone')} type="phone" placeholder="e.g. 0000000000" />
               </div>
             </div>
           </div>
@@ -52,7 +57,7 @@ export default class FormSection extends React.Component {
             <div className="field">
               <label className="label">Objective</label>
               <div className="control">
-                <input className="input" value={this.props.user.resumes[this.props.selectedResume].objective} onChange={this.handleInput.bind(this, 'objective')} type="text" placeholder="e.g Web development professional with 3 years of experience" />
+                <input className="input" value={this.props.user.resumes[this.props.selectedResume].objective} onChange={this.handleResumeUpdate.bind(this, 'objective')} type="text" placeholder="e.g Web development professional with 3 years of experience" />
               </div>
             </div>
           </div>

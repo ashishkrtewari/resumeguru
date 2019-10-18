@@ -1,15 +1,7 @@
 import React from "react";
 import { errors } from "../lists";
-import { gql } from "apollo-boost";
 import { graphql } from "react-apollo";
-const getUserQuery = gql`
-{
-  users {
-    name
-    email
-    password
-  }
-}`
+import { getUserByEmail, getUserQuery } from '../queries';
 
 class Login extends React.Component {
   constructor(props) {
@@ -51,33 +43,11 @@ class Login extends React.Component {
         login = true;
         var user = await this.props.client
         .query({
-          query: gql`
-          query userByEmail($email: String){
-            userByEmail(email: $email) {
-              name
-              email
-              resumes {
-                name
-                email
-                address
-                phone
-                objective
-                experience {
-                  position
-                  name
-                  location
-                  start
-                  end
-                  description
-                }
-              }
-            }
-          }`,
+          query: getUserByEmail,
           variables: {
             email: this.state.email
           }
         });
-        console.log(user);
         this.props.handleStateUpdate('user', user.data.userByEmail)
       } else {
         error = true;

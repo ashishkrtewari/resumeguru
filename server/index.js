@@ -11,6 +11,7 @@ const mongoURI = process.env.MONGO_URI || "mongodb://ashish:test123@ds233198.mla
 //Mongoose Connect
 mongoose.Promise = global.Promise;
 mongoose.connect(mongoURI);
+mongoose.set('useFindAndModify', false);
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
