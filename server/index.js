@@ -4,10 +4,11 @@ import schema from "./src/schema/schema";
 import cors from "cors";
 import mongoose from "mongoose";
 import path from "path";
+import { databaseKey } from "../creds"
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-const mongoURI = process.env.MONGO_URI || "mongodb://ashish:test123@ds233198.mlab.com:33198/resumeguru";
+const mongoURI = process.env.MONGO_URI || databaseKey;
 
 //Mongoose Connect
 mongoose.Promise = global.Promise;

@@ -11,6 +11,8 @@ node_modules
 # production
 build
 
+/creds.js
+
 # misc
 .DS_Store
 .env.local
