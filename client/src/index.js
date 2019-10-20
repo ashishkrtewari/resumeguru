@@ -13,7 +13,7 @@ const cache = new InMemoryCache({
 });
 
 const link = new HttpLink({
-  uri: '/graphql'
+  uri: 'https://resumeguru.herokuapp.com/graphql'
 });
 
 const client = new ApolloClient({
