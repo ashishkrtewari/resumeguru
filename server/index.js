@@ -30,7 +30,7 @@ app.use("/graphql", graphqlHTTP({
 
  // All remaining requests return the React app, so it can handle routing.
 
-const root = require('path').join(__dirname, 'client', 'build')
+const root = require('path').join(__dirname, '../client', 'build')
 app.use(express.static(root));
 app.get("*", (req, res) => {
     res.sendFile('index.html', { root });
