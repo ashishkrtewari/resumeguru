@@ -8,8 +8,7 @@ export default class Header extends React.Component {
   handleLoginLogout() {
     if (this.props.user) {
       this.props.handleStateUpdate("user", null);
-    } else {
-      
+      localStorage.setItem('userName')
     }
   }
 
