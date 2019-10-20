@@ -29,9 +29,12 @@ app.use("/graphql", graphqlHTTP({
 }));
 
  // All remaining requests return the React app, so it can handle routing.
- app.get('*', function(request, response) {
-  response.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
-});
+
+const root = require('path').join(__dirname, 'client', 'build')
+app.use(express.static(root));
+app.get("*", (req, res) => {
+    res.sendFile('index.html', { root });
+})
 
 app.listen(PORT, () => {
   console.log("vuePress running on port :", PORT);
