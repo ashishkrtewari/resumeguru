@@ -40,6 +40,7 @@ class App extends React.Component {
   };
   handleStateUpdate(prop, payload) {
     this.setState({ [prop]: payload });
+    this.username = localStorage.getItem("email");
   }
   handleExperienceUpdate(type, index, payload) {
     let user = { ...this.state.user };
