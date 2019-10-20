@@ -12,29 +12,29 @@ const mongoURI = process.env.MONGO_URI;
 //Mongoose Connect
 mongoose.Promise = global.Promise;
 mongoose.connect(mongoURI);
-mongoose.set('useFindAndModify', false);
+mongoose.set("useFindAndModify", false);
 
 var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function() {
-  console.log('Connected to DB');
+db.on("error", console.error.bind(console, "connection error:"));
+db.once("open", function() {
+  console.log("Connected to DB");
 });
 
 // Allow Cross Origin
 app.use(cors());
 
-app.use("/graphql", graphqlHTTP({
-  schema,
-  graphiql: true
-}));
+app.use(
+  "/graphql",
+  graphqlHTTP({
+    schema,
+    graphiql: true
+  })
+);
 
- // All remaining requests return the React app, so it can handle routing.
-
-const root = require('path').join(__dirname, '../client', 'build')
-app.use(express.static(root));
-app.get("*", (req, res) => {
-    res.sendFile('index.html', { root });
-})
+// All remaining requests return the React app, so it can handle routing.
+app.get("*", function(request, response) {
+  response.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
+});
 
 app.listen(PORT, () => {
   console.log("vuePress running on port :", PORT);

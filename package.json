@@ -17,7 +17,6 @@
   "bugs": {
     "url": "https://github.com/ashishkrtewari/resumeguru/issues"
   },
-  "homepage": "https://github.com/ashishkrtewari/resumeguru#readme",
   "dependencies": {
     "concurrently": "^5.0.0"
   }
