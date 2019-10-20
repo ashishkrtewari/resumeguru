@@ -57,7 +57,7 @@ class Login extends React.Component {
           }
         });
         this.props.handleStateUpdate('user', user.data.userByEmail)
-        localStorage.setItem("userName", this.props.username);
+        localStorage.setItem("email", this.state.email);
     }
     this.isLoading = false;
   }

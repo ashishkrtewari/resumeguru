@@ -57,7 +57,7 @@ export default class FormSection extends React.Component {
             <div className="field">
               <label className="label">Objective</label>
               <div className="control">
-                <input className="input" value={this.props.user.resumes[this.props.selectedResume].objective} onChange={this.handleResumeUpdate.bind(this, 'objective')} type="text" placeholder="e.g Web development professional with 3 years of experience" />
+              <textarea rows="5" className="textarea" value={this.props.user.resumes[this.props.selectedResume].objective} onChange={this.handleResumeUpdate.bind(this, 'objective')} type="text" placeholder="e.g Web development professional with 3 years of experience" />
               </div>
             </div>
           </div>
@@ -135,14 +135,14 @@ export default class FormSection extends React.Component {
         <div className="title is-4 form-title">
           {this.props.activeForm}
         </div>
-        {this.renderForm(this.props.activeForm)}
+        {this.renderNav(this.props.activeForm)}
         <div className="save-section columns is-centered">
           <button type="button" className={"button m-20 " + (this.props.saving ? "is-loading" : "is-primary")} onClick={this.props.save}>Save</button>
           {
             this.props.activeForm === "experience" ? <button type="button" className="button is-primary m-20" onClick={this.props.addExperience}>Add Experience</button> : ""
           }
         </div>
-        {this.renderNav(this.props.activeForm)}
+        {this.renderForm(this.props.activeForm)}
       </section>
     )
   }
