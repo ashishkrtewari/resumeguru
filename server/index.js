@@ -4,7 +4,7 @@ import schema from "./src/schema/schema";
 import cors from "cors";
 import mongoose from "mongoose";
 import path from "path";
-import { databaseKey } from "../creds"
+// import { databaseKey } from "../creds";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
