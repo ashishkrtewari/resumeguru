@@ -1,7 +1,6 @@
 import React from "react";
 import { errors } from "../lists";
-import { graphql } from "react-apollo";
-import { getUserByEmail, getUserQuery } from '../queries';
+import { userLoginMutation } from "../queries";
 
 class Login extends React.Component {
   constructor(props) {
@@ -9,14 +8,15 @@ class Login extends React.Component {
     this.state = {
       email: "ashishtewaripro@gmail.com",
       password: "",
+      login: true,
       error: false,
-      submitted: false
+      submitted: false,
+      isLoading: false
     }
   }
-  isLoading = false;
   async handleFormSubmit(event) {
     event.preventDefault();
-    this.isLoading = true;
+    this.setState({isLoading: true});
     this.setState({submitted: true});
     let error = false;
     let login = true;
@@ -30,36 +30,24 @@ class Login extends React.Component {
     } else {
       error = false;
     }
-    if (!error) {
-      var data = this.props.data;
-      var matchedUser = []
-      if (data && data.users) {
-        matchedUser = data.users.filter((item) => item.email === this.state.email && item.password === this.state.password);
-      }
-      if (
-        matchedUser.length
-      ) {
-        error = false
-        login = true;
-      } else {
-        error = true;
-        login = false;
-      }
-    }
-    this.setState({login});
-    this.setState({error});
     if(login && !error) {
-      var user = await this.props.client
-        .query({
-          query: getUserByEmail,
-          variables: {
-            email: this.state.email
-          }
-        });
-        this.props.handleStateUpdate('user', user.data.userByEmail)
-        localStorage.setItem("email", this.state.email);
+      let response = await this.props.client.mutate({
+        mutation: userLoginMutation,
+        variables: { email: this.state.email, password: this.state.password }
+      })
+      let data = response.data.userLogin;
+      if (data.user) {         
+        let user = data.user;
+        this.setState({login});
+        this.setState({error});
+        this.props.handleStateUpdate('user', user)
+        localStorage.setItem("token", data.token);
+       } else {
+        this.setState({login: false});
+        this.setState({error: true});
+       }
     }
-    this.isLoading = false;
+    this.setState({isLoading: false});
   }
   renderErrorMsg(type) {
     return this.state.submitted && !this.state[type] ? (<p className="help is-danger">{errors[type + 'Error']}</p>): ""
@@ -89,7 +77,7 @@ class Login extends React.Component {
               {this.renderErrorMsg('password')}
             </div>
             {this.renderErrorMsg('login')}
-            <button className={"button is-primary m-t-10 " + (this.isLoading ? 'is-loading' : '')} type="submit">Login</button>
+            <button className={"button is-primary m-t-10 " + (this.state.isLoading ? 'is-loading' : '')} type="submit">Login</button>
           </form>
         </div>
       </div>
@@ -97,4 +85,4 @@ class Login extends React.Component {
   }
 }
 
-export default graphql(getUserQuery)(Login);
+export default Login;

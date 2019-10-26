@@ -74,9 +74,19 @@ export const UserType = new GraphQLObjectType({
     fields: () => ({
         name: { type: GraphQLString },
         email: { type: GraphQLString },
-        password: { type: GraphQLString },
         resumes: {
             type: ResumesType
+        }
+    })
+})
+export const UserLoginPayload = new GraphQLObjectType({
+    name: "UserLoginPayload",
+    fields: () => ({
+        user: {
+            type: UserType
+        },
+        token: {
+            type: GraphQLString
         }
     })
 })

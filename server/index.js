@@ -3,7 +3,7 @@ import graphqlHTTP from "express-graphql";
 import schema from "./src/schema/schema";
 import cors from "cors";
 import mongoose from "mongoose";
-const path = require("path");
+import bodyParser from "body-parser";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -19,7 +19,8 @@ db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", function() {
   console.log("Connected to DB");
 });
-
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 // Allow Cross Origin
 app.use(cors());
 

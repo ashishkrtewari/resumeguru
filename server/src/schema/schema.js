@@ -3,8 +3,12 @@ import User from "../models/user";
 import {
   UserType,
   UsersType,
-  UserInput
+  UserInput,
+  UserLoginPayload
 } from "./graphQLTypes";
+
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 const {
   GraphQLObjectType,
@@ -70,6 +74,34 @@ const Mutation = new GraphQLObjectType({
       },
       resolve(parent, args) {
         return User.findOneAndDelete({ name: args.name });
+      }
+    },
+    userLogin: {
+      type: UserLoginPayload,  
+      args: {  
+        email: { type: GraphQLString },
+        password: { type: GraphQLString },
+      },
+      async resolve(parent, args) {
+        let user = await User.findOne({ email: args.email });
+        if (bcrypt.compareSync(args.password, user.password)) {
+          const token = jwt.sign({ id: user._id }, process.env.secret || '', {
+            expiresIn: "1h"
+          });
+          return {user, token}
+        } else {
+          return false;
+        }
+      }
+    },    
+    userRegister: {
+      type: UserLoginPayload,  
+      args: {  
+        email: { type: GraphQLString },  
+        password: { type: GraphQLString },  
+      },
+      resolve(parent, args) {
+        return User.findOne({ name: args.name });
       }
     }
   }

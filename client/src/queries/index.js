@@ -1,56 +1,86 @@
-import { gql } from 'apollo-boost';
+import { gql } from "apollo-boost";
 
 export const getUserByEmail = gql`
-query userByEmail($email: String){
-  userByEmail(email: $email) {
-    name
-    email
-    resumes {
+  query userByEmail($email: String) {
+    userByEmail(email: $email) {
       name
       email
-      address
-      phone
-      objective
-      experience {
-        position
+      resumes {
         name
-        location
-        start
-        end
-        description
+        email
+        address
+        phone
+        objective
+        experience {
+          position
+          name
+          location
+          start
+          end
+          description
+        }
       }
     }
   }
-}`;
+`;
 
 export const getUserQuery = gql`
-{
-  users {
-    name
-    email
-    password
-  }
-}`;
-
-export const updateUserMutation = gql`
-mutation updateUser($user: UserInput){
-  updateUser(user: $user) {
-    name
-    email
-    resumes {
+  {
+    users {
       name
       email
-      address
-      phone
-      objective
-      experience {
-        position
+      password
+    }
+  }
+`;
+
+export const updateUserMutation = gql`
+  mutation updateUser($user: UserInput) {
+    updateUser(user: $user) {
+      name
+      email
+      resumes {
         name
-        location
-        start
-        end
-        description
+        email
+        address
+        phone
+        objective
+        experience {
+          position
+          name
+          location
+          start
+          end
+          description
+        }
       }
     }
   }
-}`;
+`;
+
+export const userLoginMutation = gql`
+  mutation userLogin($email: String, $password: String) {
+    userLogin(email: $email, password: $password) {
+      user {
+        name
+        email
+        resumes {
+          name
+          email
+          address
+          phone
+          objective
+          experience {
+            position
+            name
+            location
+            start
+            end
+            description
+          }
+        }
+      }
+      token
+    }
+  }
+`;
