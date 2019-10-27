@@ -4,6 +4,7 @@ import schema from "./src/schema/schema";
 import cors from "cors";
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
+require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
