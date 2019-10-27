@@ -84,7 +84,7 @@ const Mutation = new GraphQLObjectType({
       },
       async resolve(parent, args) {
         let user = await User.findOne({ email: args.email });
-        if (bcrypt.compareSync(args.password, user.password)) {
+        if (user && bcrypt.compareSync(args.password, user.password)) {
           const token = jwt.sign({ id: user._id }, process.env.secret || '', {
             expiresIn: "1h"
           });

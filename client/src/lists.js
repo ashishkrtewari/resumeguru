@@ -14,7 +14,7 @@ export const Sections = [
 ];
 export const errors = {
   loginError: "Email or Password is Incorrect",
-  emailError: "Please enter an Email",
+  isValidEmailError: "Please enter a valid Email",
   passwordError: "Please enter a Password"
 }
 

@@ -9,26 +9,26 @@ class Login extends React.Component {
       email: "ashishtewaripro@gmail.com",
       password: "",
       login: true,
+      isValidEmail: true,
       error: false,
       submitted: false,
       isLoading: false
     }
   }
+  emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
   async handleFormSubmit(event) {
     event.preventDefault();
     this.setState({isLoading: true});
     this.setState({submitted: true});
     let error = false;
     let login = true;
-    if (!this.state.email) {
+    if (!this.state.email || !this.emailRegex.test(this.state.email)) {
+      this.setState({isValidEmail: false});
       error = true;
-    } else {
-      error = false;
     }
     if (!this.state.password) {
       error = true;
-    } else {
-      error = false;
     }
     if(login && !error) {
       let response = await this.props.client.mutate({
@@ -46,6 +46,8 @@ class Login extends React.Component {
         this.setState({login: false});
         this.setState({error: true});
        }
+    } else {
+      this.setState({error});
     }
     this.setState({isLoading: false});
   }
@@ -65,14 +67,33 @@ class Login extends React.Component {
             <div className="field">
               <label className={"label has-text-left"}>Email</label>
               <div className="control">
-                <input className={"input " + (this.renderErrorMsg('email') ? 'is-danger' : '')} value={this.state.email} onChange={(event) => { this.setState({ email: event.target.value }) }} type="email" placeholder="e.g johndoe" />
+                <input  className={"input " + (this.renderErrorMsg('isValidEmail') ? 'is-danger' : '')} 
+                        value={this.state.email} 
+                        onChange={(event) => { this.setState({ email: event.target.value.toLowerCase().replace(/ /g,'') });
+                          if(!this.setState.login) {
+                            this.setState({login: true});
+                          }
+                          if(this.state.submitted) {
+                            if(this.state.email && this.emailRegex.test(event.target.value.toLowerCase()) && !this.state.isValidEmail) {
+                              this.setState({isValidEmail: true})
+                            }
+                          }
+                        }} 
+                        type="email" placeholder="e.g johndoe" />
               </div>
-              {this.renderErrorMsg('email')}
+              {this.renderErrorMsg('isValidEmail')}
             </div>
             <div className="field">
               <label className="label has-text-left">Password</label>
               <div className="control">
-                <input className={"input " + (this.renderErrorMsg('password') ? 'is-danger' : '')} onChange={(event) => { this.setState({ password: event.target.value }) }} type="password" placeholder="e.g *****" />
+                <input  className={"input " + (this.renderErrorMsg('password') ? 'is-danger' : '')}
+                        value={this.state.password}
+                        onChange={(event) => { this.setState({ password: event.target.value.replace(/ /g,'') }); 
+                          if(!this.setState.login) {
+                            this.setState({login: true});
+                          }
+                        }}
+                        type="password" placeholder="e.g *****" />
               </div>
               {this.renderErrorMsg('password')}
             </div>
