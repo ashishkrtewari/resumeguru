@@ -4,17 +4,13 @@ import {
   UserType,
   UsersType,
   UserInput,
-  UserLoginPayload
+  UserLoginPayload,
 } from "./graphQLTypes";
 
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-const {
-  GraphQLObjectType,
-  GraphQLString,
-  GraphQLSchema
-} = graphql;
+const { GraphQLObjectType, GraphQLString, GraphQLSchema } = graphql;
 
 const RootQuery = new GraphQLObjectType({
   name: "RootQuery",
@@ -23,7 +19,7 @@ const RootQuery = new GraphQLObjectType({
       type: UsersType,
       resolve() {
         return User.find();
-      }
+      },
     },
     userByEmail: {
       type: UserType,
@@ -31,7 +27,7 @@ const RootQuery = new GraphQLObjectType({
       resolve(parent, args) {
         // Code to fetch from database.
         return User.findOne({ email: args.email });
-      }
+      },
     },
     userByName: {
       type: UserType,
@@ -39,75 +35,75 @@ const RootQuery = new GraphQLObjectType({
       resolve(parent, args) {
         // Code to fetch from database.
         return User.findOne({ name: args.name });
-      }
-    }
-  }
-})
+      },
+    },
+  },
+});
 
 const Mutation = new GraphQLObjectType({
-  name: 'Mutation',
+  name: "Mutation",
   fields: {
     addUser: {
       type: UserType,
       args: {
-        user: {type: UserInput}
+        user: { type: UserInput },
       },
       resolve(parent, { user }) {
-        let newUser = new User(user)
+        let newUser = new User(user);
         return newUser.save();
-      }
+      },
     },
     updateUser: {
       type: UserType,
       args: {
-        user: {type: UserInput}
+        user: { type: UserInput },
       },
-        async resolve(parent, { user }) {
-        await User.findOneAndUpdate({email: user.email}, user)
+      async resolve(parent, { user }) {
+        await User.findOneAndUpdate({ email: user.email }, user);
         return await User.findOne({ email: user.email });
-      }
+      },
     },
     deleteUser: {
       type: UserType,
       args: {
-        name: { type: GraphQLString }
+        name: { type: GraphQLString },
       },
       resolve(parent, args) {
         return User.findOneAndDelete({ name: args.name });
-      }
+      },
     },
     userLogin: {
-      type: UserLoginPayload,  
-      args: {  
+      type: UserLoginPayload,
+      args: {
         email: { type: GraphQLString },
         password: { type: GraphQLString },
       },
       async resolve(parent, args) {
         let user = await User.findOne({ email: args.email });
         if (user && bcrypt.compareSync(args.password, user.password)) {
-          const token = jwt.sign({ id: user._id }, process.env.secret || '', {
-            expiresIn: "1h"
+          const token = jwt.sign({ id: user._id }, process.env.secret || "", {
+            expiresIn: "1h",
           });
-          return {user, token}
+          return { user, token };
         } else {
           return false;
         }
-      }
-    },    
+      },
+    },
     userRegister: {
-      type: UserLoginPayload,  
-      args: {  
-        email: { type: GraphQLString },  
-        password: { type: GraphQLString },  
+      type: UserLoginPayload,
+      args: {
+        email: { type: GraphQLString },
+        password: { type: GraphQLString },
       },
       resolve(parent, args) {
         return User.findOne({ name: args.name });
-      }
-    }
-  }
-})
+      },
+    },
+  },
+});
 
 export default new GraphQLSchema({
   query: RootQuery,
-  mutation: Mutation
-})
+  mutation: Mutation,
+});

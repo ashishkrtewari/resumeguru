@@ -1,5 +1,5 @@
 import * as mongoose from "mongoose";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
@@ -20,22 +20,28 @@ const userSchema = new Schema({
           location: { type: String },
           start: { type: String },
           end: { type: String },
-          description: { type: String }
-        }
-      ]
-    }
-  ]
+          description: { type: String },
+        },
+      ],
+    },
+  ],
 });
 
-userSchema.pre('save', function (next) {
-  var user = this;
-  if (!user.isModified('password')) {return next()};
-  bcrypt.hash(user.password,10).then((hashedPassword) => {
+userSchema.pre(
+  "save",
+  function (next) {
+    var user = this;
+    if (!user.isModified("password")) {
+      return next();
+    }
+    bcrypt.hash(user.password, 10).then((hashedPassword) => {
       user.password = hashedPassword;
       next();
-  })
-}, function (err) {
-  next(err)
-})
+    });
+  },
+  function (err) {
+    next(err);
+  }
+);
 
 export default mongoose.model("User", userSchema);
