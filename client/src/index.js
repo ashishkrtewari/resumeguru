@@ -26,7 +26,7 @@ const authLink = setContext((_, { headers }) => {
 });
 
 const link = new HttpLink({
-  uri: `${process.env.API_URL ?? "http://localhost:5000"}/graphql`,
+  uri: `https://resumeguru.herokuapp.com/graphql`,
 });
 
 const client = new ApolloClient({
