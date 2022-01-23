@@ -69,7 +69,16 @@ $positions: (("t", "top"), ("r", "right"), ("b", "bottom"), ("l", "left"));
   }
 }
 
+.App > section {
+  margin-top: 76px;
+  z-index: 0;
+}
+
 header {
+  position: fixed;
+  top: 0;
+  background: white;
+  z-index: 1;
   .navbar-brand {
     font-family: "Oswald", sans-serif;
   }
@@ -198,6 +207,9 @@ section > div:nth-of-type(1) {
 }
 
 @media print {
+  .App > section {
+    margin-top: 0;
+  }
   .no-print {
     display: none !important;
   }
