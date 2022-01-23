@@ -7,7 +7,7 @@ import {
   UserLoginPayload,
 } from "./graphQLTypes";
 
-import bcrypt from "bcryptjs";
+// import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 const { GraphQLObjectType, GraphQLString, GraphQLSchema } = graphql;
@@ -80,7 +80,7 @@ const Mutation = new GraphQLObjectType({
       },
       async resolve(parent, args) {
         let user = await User.findOne({ email: args.email });
-        if (user && bcrypt.compareSync(args.password, user.password)) {
+        if (user && args.password === user.password) {
           const token = jwt.sign({ id: user._id }, process.env.secret || "", {
             expiresIn: "1h",
           });

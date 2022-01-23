@@ -4,7 +4,7 @@ import schema from "./src/schema/schema";
 import cors from "cors";
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
-require('dotenv').config();
+require("dotenv").config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -17,7 +17,7 @@ mongoose.set("useFindAndModify", false);
 
 var db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
-db.once("open", function() {
+db.once("open", function () {
   console.log("Connected to DB");
 });
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -29,7 +29,7 @@ app.use(
   "/graphql",
   graphqlHTTP({
     schema,
-    graphiql: true
+    graphiql: true,
   })
 );
 
