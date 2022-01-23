@@ -8,7 +8,9 @@ $design1Color: #50e3c2;
   .box {
     padding: 50px;
   }
-  .experience-wrapper, .objective-section, .contact-section {
+  .experience-wrapper,
+  .about-section,
+  .contact-section {
     border-bottom: dotted 3px $design1Color;
     padding-bottom: 40px;
     margin-bottom: 40px;
@@ -50,7 +52,7 @@ $design1Color: #50e3c2;
     }
   }
   .experience-wrapper {
-    .position{
+    .position {
       margin-bottom: 15px;
     }
     &:not(:last-of-type) {

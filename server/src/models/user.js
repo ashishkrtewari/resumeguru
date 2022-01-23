@@ -12,7 +12,7 @@ const userSchema = new Schema({
       email: { type: String },
       address: { type: String },
       phone: { type: String },
-      objective: { type: String },
+      about: { type: String },
       experience: [
         {
           position: { type: String },

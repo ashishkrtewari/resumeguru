@@ -1,5 +1,4 @@
 export const Sections = [
-  "Objective",
   "Experience",
   "Education",
   "Skills",
@@ -10,36 +9,36 @@ export const Sections = [
   "Honours & Awards",
   "Publications",
   "References",
-  "Custom"
+  "Custom",
 ];
 export const errors = {
   loginError: "Email or Password is Incorrect",
   isValidEmailError: "Please enter a valid Email",
-  passwordError: "Please enter a Password"
-}
+  passwordError: "Please enter a Password",
+};
 
-export const formList = ["contact", "objective", "experience"];
+export const formList = ["contact", "experience"];
 
 export const UserInput = {
-  "name": "",
-  "email": "",
-  "resumes": [
+  name: "",
+  email: "",
+  resumes: [
     {
-      "name": "",
-      "email": "",
-      "address": "",
-      "phone": "",
-      "objective": "",
-      "experience": [
+      name: "",
+      email: "",
+      address: "",
+      phone: "",
+      about: "",
+      experience: [
         {
-          "position": "",
-          "name": "",
-          "location": "",
-          "start": "",
-          "end": "",
-          "description": ""
-        }
-      ]
-    }
-  ]
-}
+          position: "",
+          name: "",
+          location: "",
+          start: "",
+          end: "",
+          description: "",
+        },
+      ],
+    },
+  ],
+};

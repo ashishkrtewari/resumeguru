@@ -1,9 +1,9 @@
 @charset "utf-8";
 
 // Import a Google Font
-@import url('https://fonts.googleapis.com/css?family=Mansalva:400,700');
-@import url('https://fonts.googleapis.com/css?family=Oxygen:400,700');
-@import url('https://fonts.googleapis.com/css?family=Oswald&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Mansalva:400,700");
+@import url("https://fonts.googleapis.com/css?family=Oxygen:400,700");
+@import url("https://fonts.googleapis.com/css?family=Oswald&display=swap");
 
 // Set your brand colors
 // $purple: #8a4d76;
@@ -13,7 +13,7 @@
 // $beige-lighter: #eff0eb;
 
 // Update Bulma's global variables
-$family-sans-serif: 'Oxygen', sans-serif;
+$family-sans-serif: "Oxygen", sans-serif;
 // $grey-dark: $brown;
 // $grey-light: $beige-light;
 // $primary: $purple;
@@ -28,15 +28,10 @@ $control-border-width: 2px;
 // $input-shadow: none;
 
 // Import only what you need from Bulma
-@import 'bulma/bulma';
+@import "bulma/bulma";
 
-$sizes: (0,10,15,20,25,30,50);
-$positions: (
-    ('t', 'top'),
-    ('r', 'right'),
-    ('b', 'bottom'),
-    ('l', 'left')
-);
+$sizes: (0, 10, 15, 20, 25, 30, 50);
+$positions: (("t", "top"), ("r", "right"), ("b", "bottom"), ("l", "left"));
 .app {
   min-height: 100vh;
   text-align: center;
@@ -56,30 +51,31 @@ $positions: (
     $posKey: nth($position, 1);
     $posValue: nth($position, 2);
     .m-#{$posKey}-#{$size} {
-        margin-#{$posValue}: $size + px !important;
+      margin-#{$posValue}: $size + px !important;
     }
     .p-#{$posKey}-#{$size} {
-        padding-#{$posValue}: $size + px !important;
+      padding-#{$posValue}: $size + px !important;
     }
   }
 }
 
-#form-section { 
-  label{
+#form-section {
+  label {
     text-align: left;
   }
-  .nav-button, .form-title {
+  .nav-button,
+  .form-title {
     text-transform: capitalize;
   }
 }
 
 header {
   .navbar-brand {
-    font-family: 'Oswald', sans-serif;
+    font-family: "Oswald", sans-serif;
   }
 }
-header .navbar-brand{
-  font-family: 'Oswald', sans-serif;
+header .navbar-brand {
+  font-family: "Oswald", sans-serif;
   font-weight: normal;
   .title {
     font-weight: normal;
@@ -90,9 +86,11 @@ header .navbar-brand{
   }
 }
 section > div:nth-of-type(1) {
-  font-family: 'Oswald', sans-serif;
+  font-family: "Oswald", sans-serif;
 }
-.contact, .objective, .experience .is-grouped {
+.contact,
+.about,
+.experience .is-grouped {
   box-shadow: 1px 1px 7px -1px;
 }
 
@@ -117,22 +115,48 @@ section > div:nth-of-type(1) {
 .login-wrapper {
   background: linear-gradient(to bottom, #ededed 0%, #ffffff 100%);
   .box {
-    border:1px solid #ededed;
+    border: 1px solid #ededed;
     box-shadow: -5px 0 16px -5px #c8c8c8;
   }
   .login-desc-box {
-    background: -moz-linear-gradient(45deg, rgba(173,8,132,1) 0%, rgba(46,126,194,1) 100%); /* ff3.6+ */
-    background: -webkit-gradient(linear, left bottom, right top, color-stop(0%, rgba(173,8,132,1)), color-stop(100%, rgba(46,126,194,1))); /* safari4+,chrome */
-    background: -webkit-linear-gradient(45deg, rgba(173,8,132,1) 0%, rgba(46,126,194,1) 100%); /* safari5.1+,chrome10+ */
-    background: -o-linear-gradient(45deg, rgba(173,8,132,1) 0%, rgba(46,126,194,1) 100%); /* opera 11.10+ */
-    background: -ms-linear-gradient(45deg, rgba(173,8,132,1) 0%, rgba(46,126,194,1) 100%); /* ie10+ */
-    background: linear-gradient(45deg, rgba(173,8,132,1) 0%, rgba(46,126,194,1) 100%); /* w3c */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2e7ec2', endColorstr='#ad0884',GradientType=1 ); /* ie6-9 */   
+    background: -moz-linear-gradient(
+      45deg,
+      rgba(173, 8, 132, 1) 0%,
+      rgba(46, 126, 194, 1) 100%
+    ); /* ff3.6+ */
+    background: -webkit-gradient(
+      linear,
+      left bottom,
+      right top,
+      color-stop(0%, rgba(173, 8, 132, 1)),
+      color-stop(100%, rgba(46, 126, 194, 1))
+    ); /* safari4+,chrome */
+    background: -webkit-linear-gradient(
+      45deg,
+      rgba(173, 8, 132, 1) 0%,
+      rgba(46, 126, 194, 1) 100%
+    ); /* safari5.1+,chrome10+ */
+    background: -o-linear-gradient(
+      45deg,
+      rgba(173, 8, 132, 1) 0%,
+      rgba(46, 126, 194, 1) 100%
+    ); /* opera 11.10+ */
+    background: -ms-linear-gradient(
+      45deg,
+      rgba(173, 8, 132, 1) 0%,
+      rgba(46, 126, 194, 1) 100%
+    ); /* ie10+ */
+    background: linear-gradient(
+      45deg,
+      rgba(173, 8, 132, 1) 0%,
+      rgba(46, 126, 194, 1) 100%
+    ); /* w3c */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2e7ec2', endColorstr='#ad0884',GradientType=1 ); /* ie6-9 */
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
     box-shadow: -5px 0 16px -5px #929292;
     color: #fff;
-    padding :40px 20px;
+    padding: 40px 20px;
     h2 {
       font-size: 25px;
       border-bottom: 1px solid #006df7;
@@ -159,7 +183,7 @@ section > div:nth-of-type(1) {
     }
     .button.is-primary {
       width: 100%;
-      height: 55px; 
+      height: 55px;
     }
   }
 }
@@ -175,11 +199,11 @@ section > div:nth-of-type(1) {
 
 @media print {
   .no-print {
-    display: none;
+    display: none !important;
   }
   #preview-section {
     width: 100%;
   }
 }
 // Templates
-@import '../templates/design1.scss';
+@import "../templates/design1.scss";

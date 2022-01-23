@@ -10,7 +10,7 @@ export const getUserByEmail = gql`
         email
         address
         phone
-        objective
+        about
         experience {
           position
           name
@@ -44,7 +44,7 @@ export const updateUserMutation = gql`
         email
         address
         phone
-        objective
+        about
         experience {
           position
           name
@@ -69,7 +69,7 @@ export const userLoginMutation = gql`
           email
           address
           phone
-          objective
+          about
           experience {
             position
             name
