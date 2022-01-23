@@ -1,9 +1,8 @@
-import React, { useRef } from "react";
+import React from "react";
 import { renderDescription } from "../utils";
 
 export default function PreviewSection(props) {
   const contactList = ["email", "address", "phone"];
-  const resumeRef = useRef();
   const print = () => window.print();
   const renderContactInfo = () =>
     contactList.map((item, index) => {
@@ -27,7 +26,7 @@ export default function PreviewSection(props) {
           Print
         </button>
       </div>
-      <div className="box" ref={resumeRef}>
+      <div className="box">
         <div className="contact-section">
           <div className="name-block has-text-left">
             <div className="title is-2 name">{props.name}</div>
