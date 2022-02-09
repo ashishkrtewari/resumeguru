@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./styles/App.scss";
 import Header from "./components/Header";
-import LoginForm from "./components/Login";
+import LoginForm from "./components/LoginForm";
 import { Sections } from "./lists";
 import { getUserByEmail } from "./queries";
 import {
