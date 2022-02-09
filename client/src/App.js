@@ -1,129 +1,98 @@
-import React from "react";
+import React, { useState } from "react";
 import "./styles/App.scss";
 import Header from "./components/Header";
-import Login from "./components/login";
-import FormSection from "./components/FormSection";
-import PreviewSection from "./components/PreviewSection";
+import Login from "./components/Login";
 import { Sections } from "./lists";
-import { getUserByEmail, updateUserMutation } from "./queries";
+import { getUserByEmail } from "./queries";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+  Navigate,
+} from "react-router-dom";
+import ResumeBuilder from "./components/ResumeBuilder";
+import "react-notifications/lib/notifications.css";
+import {
+  NotificationContainer,
+  NotificationManager,
+} from "react-notifications";
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.username = localStorage.getItem("email");
-    if (this.username) {
-      (async () => {
-        this.user = await this.props.client.query({
-          query: getUserByEmail,
-          variables: {
-            email: this.username
-          }
-        });
-        this.setState({ user: this.user.data.userByEmail });
-      })();
-    }
-    this.state = {
-      sections: Sections.map(section => ({ title: section, switch: false })),
-      activeForm: "contact",
-      user: this.user ? this.user.data.userByEmail : null,
-      selectedResume: 0,
-      saving: false
-    };
+const App = (props) => {
+  const sections = Sections.map((section) => ({
+    title: section,
+    switch: false,
+  }));
+  const [user, setUser] = useState(null);
+
+  const username = localStorage.getItem("email");
+  if (username) {
+    (async () => {
+      const user = await props.client.query({
+        query: getUserByEmail,
+        variables: {
+          email: username,
+        },
+      });
+      setUser(user.data.userByEmail);
+    })();
   }
-  experienceType = {
-    position: "",
-    name: "",
-    location: "",
-    start: "",
-    end: "",
-    description: ""
+  const logout = () => {
+    setUser(null);
   };
-  handleStateUpdate(prop, payload) {
-    this.setState({ [prop]: payload });
-    this.username = localStorage.getItem("email");
-  }
-  handleExperienceUpdate(type, index, payload) {
-    let user = { ...this.state.user };
-    user.resumes[this.state.selectedResume].experience = [
-      ...this.state.user.resumes[this.state.selectedResume].experience
-    ].map((item, i) => {
-      if (index === i) {
-        item[type] = payload;
-      }
-      return item;
-    });
-    this.setState({ user });
-  }
-  addExperience() {
-    let user = { ...this.state.user };
-    user.resumes[this.state.selectedResume].experience = [
-      ...this.state.user.resumes[this.state.selectedResume].experience,
-      { ...this.experienceType }
-    ];
-    this.setState({ user });
-  }
-  async save() {
-    let user = { ...this.state.user };
-    this.setState({ saving: true });
-    user = (await this.props.client.mutate({
-      mutation: updateUserMutation,
-      variables: { user }
-    }))["data"]["updateUser"];
-    this.setState({ saving: false });
-    this.setState({ user });
-  }
-  removeExperience(index) {
-    let user = { ...this.state.user };
-    user.resumes[this.state.selectedResume].experience = [
-      ...this.state.user.resumes[this.state.selectedResume].experience
-    ].filter((item, i) => i !== index);
-    this.setState({ user });
-  }
-  switchForm(activeForm) {
-    this.setState({ activeForm });
-  }
-  render() {
-    if (!this.state.user && !this.username) {
-      return (
-        <div className="App">
-          <Header {...this.state} />
-          <Login
-            {...this.props}
-            handleStateUpdate={this.handleStateUpdate.bind(this)}
-          />
-        </div>
-      );
-    } else if (this.state.user) {
-      return (
-        <div className="App">
-          <Header
-            {...this.state}
-            handleStateUpdate={this.handleStateUpdate.bind(this)}
-          />
-          <section className="columns">
-            <FormSection
-              {...this.state}
-              addExperience={this.addExperience.bind(this)}
-              handleExperienceUpdate={this.handleExperienceUpdate.bind(this)}
-              handleStateUpdate={this.handleStateUpdate.bind(this)}
-              removeExperience={this.removeExperience.bind(this)}
-              switchForm={this.switchForm.bind(this)}
-              save={this.save.bind(this)}
-            />
-            <PreviewSection
-              {...this.state.user.resumes[this.state.selectedResume]}
-            />
-          </section>
-        </div>
-      );
-    } else {
-      return (
-        <div className="wh-100 is-absolute columns is-centered is-vcentered">
-          <div className="p-50 button is-info is-loading title is-2"></div>
-        </div>
-      );
+
+  const RequireAuth = ({ children }) => {
+    let location = useLocation();
+
+    if (!user) {
+      return <Navigate to="/login" state={{ from: location }} replace />;
     }
-  }
-}
+
+    return children;
+  };
+
+  const loadResumeBuilder = () => {
+    return (
+      <RequireAuth user={user}>
+        <ResumeBuilder
+          {...props}
+          user={user}
+          sections={sections}
+          handleUserUpdate={(e) => {
+            setUser(e);
+            NotificationManager.success(
+              "Resume Updated Successfully!",
+              "Success"
+            );
+          }}
+        />
+      </RequireAuth>
+    );
+  };
+  return (
+    <Router>
+      <div className="App">
+        <NotificationContainer />
+        <Header user={user} logout={() => logout()} />
+        <Routes>
+          <Route
+            path="/login"
+            element={
+              <Login
+                {...props}
+                user={user}
+                handleUserUpdate={(e) => {
+                  setUser(e);
+                }}
+              />
+            }
+          />
+          <Route path="/resume" element={loadResumeBuilder()} />
+          <Route path="/" element={loadResumeBuilder()} />
+        </Routes>
+      </div>
+    </Router>
+  );
+};
 
 export default App;

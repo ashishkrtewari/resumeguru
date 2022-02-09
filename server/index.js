@@ -12,7 +12,7 @@ const mongoURI = process.env.MONGO_URI;
 
 //Mongoose Connect
 mongoose.Promise = global.Promise;
-mongoose.connect(mongoURI);
+mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.set("useFindAndModify", false);
 
 var db = mongoose.connection;

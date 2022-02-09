@@ -1,152 +1,232 @@
-import React from "react";
+import React, { useState } from "react";
+import { Navigate, useLocation } from "react-router-dom";
 import { errors } from "../lists";
-import { userLoginMutation } from "../queries";
+import { userLoginMutation, userRegisterMutation } from "../queries";
 
-class Login extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: "ashishtewaripro@gmail.com",
-      password: "",
-      login: true,
-      isValidEmail: true,
-      error: false,
-      submitted: false,
-      isLoading: false,
-    };
-  }
-  emailRegex =
-    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-  async handleFormSubmit(event) {
+export default (props) => {
+  const formStateTypes = {
+    login: "login",
+    signup: "signup",
+  };
+  const location = useLocation();
+  const renderErrorMsg = (type) => {
+    return <p className="has-text-danger">{errors[type + "Error"] || type}</p>;
+  };
+  const [loginState, setLoginState] = useState({
+    email: "",
+    name: "",
+    password: "",
+    confirmPassword: "",
+    login: true,
+    isValidEmail: true,
+    error: false,
+    submitted: false,
+    isLoading: false,
+  });
+  const [formState, setFormState] = useState(formStateTypes.login);
+  const [errorMessage, setErrorMessage] = useState(renderErrorMsg(""));
+  const updateLoginState = (state) => {
+    setErrorMessage(renderErrorMsg(""));
+    setLoginState(state);
+  };
+  const handleFormSubmit = async (event) => {
     event.preventDefault();
-    this.setState({ isLoading: true });
-    this.setState({ submitted: true });
     let error = false;
     let login = true;
-    if (!this.state.email || !this.emailRegex.test(this.state.email)) {
-      this.setState({ isValidEmail: false });
-      error = true;
+
+    if (
+      formState === formStateTypes.signup &&
+      loginState.password !== loginState.confirmPassword
+    ) {
+      return setErrorMessage(renderErrorMsg("confirmPassword"));
     }
-    if (!this.state.password) {
-      error = true;
-    }
+
+    updateLoginState({ ...loginState, isLoading: true, submitted: true });
+
     if (login && !error) {
-      let response = await this.props.client.mutate({
-        mutation: userLoginMutation,
-        variables: { email: this.state.email, password: this.state.password },
-      });
-      let data = response.data.userLogin;
+      let response;
+      try {
+        response = await props.client.mutate({
+          mutation:
+            formState === formStateTypes.login
+              ? userLoginMutation
+              : userRegisterMutation,
+          variables: {
+            email: loginState.email,
+            password: loginState.password,
+            name: loginState.name,
+          },
+        });
+      } catch (error) {
+        response = error;
+        updateLoginState({ ...loginState, error: true });
+        return setErrorMessage(
+          renderErrorMsg(response?.graphQLErrors[0]?.message)
+        );
+      }
+      let data =
+        response.data[
+          formState === formStateTypes.login ? "userLogin" : "userRegister"
+        ];
       if (data.user) {
         let user = data.user;
-        this.setState({ login });
-        this.setState({ error });
-        this.props.handleStateUpdate("user", user);
+        updateLoginState({ ...loginState, login, error });
+        props.handleUserUpdate(user);
         localStorage.setItem("token", data.token);
         localStorage.setItem("email", user.email);
       } else {
-        this.setState({ login: false });
-        this.setState({ error: true });
+        updateLoginState({ ...loginState, login: false, error: true });
       }
     } else {
-      this.setState({ error });
+      updateLoginState({ ...loginState, error });
     }
-    this.setState({ isLoading: false });
-  }
-  renderErrorMsg(type) {
-    return this.state.submitted && !this.state[type] ? (
-      <p className="help is-danger">{errors[type + "Error"]}</p>
-    ) : (
-      ""
-    );
-  }
+    updateLoginState({ ...loginState, isLoading: false });
+  };
 
-  render() {
-    return (
-      <div className="login-wrapper columns is-centered is-vcentered">
-        <div className="column is-2 login-desc-box">
-          <h2> Welcome Resume Guru</h2>
-          <p>
-            {" "}
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation
-          </p>
-        </div>
-        <div className="login-container box column is-3">
-          <form onSubmit={(event) => this.handleFormSubmit(event)}>
+  if (props.user) {
+    return <Navigate to="/resume" state={{ from: location }} replace />;
+  }
+  return (
+    <div className="login-wrapper is-flex is-justify-content-center is-align-items-stretch is-centered is-vcentered">
+      <div className="login-container column is-7 is-flex-direction-column is-flex is-justify-content-center is-align-items-center">
+        <form onSubmit={(event) => handleFormSubmit(event)}>
+          {formState === formStateTypes.signup ? (
             <div className="field">
-              <label className={"label has-text-left"}>Email</label>
+              <label className={"label has-text-left"} htmlFor="name">
+                Name
+              </label>
               <div className="control">
                 <input
-                  className={
-                    "input " +
-                    (this.renderErrorMsg("isValidEmail") ? "is-danger" : "")
-                  }
-                  value={this.state.email}
+                  id="name"
+                  className="input"
+                  value={loginState.name}
                   onChange={(event) => {
-                    this.setState({
-                      email: event.target.value.toLowerCase().replace(/ /g, ""),
+                    updateLoginState({
+                      ...loginState,
+                      name: event.target.value,
                     });
-                    if (!this.setState.login) {
-                      this.setState({ login: true });
-                    }
-                    if (this.state.submitted) {
-                      if (
-                        this.state.email &&
-                        this.emailRegex.test(
-                          event.target.value.toLowerCase()
-                        ) &&
-                        !this.state.isValidEmail
-                      ) {
-                        this.setState({ isValidEmail: true });
-                      }
-                    }
                   }}
-                  type="email"
-                  placeholder="e.g johndoe"
+                  type="text"
+                  required
+                  placeholder="John Doe"
                 />
               </div>
-              {this.renderErrorMsg("isValidEmail")}
             </div>
+          ) : (
+            ""
+          )}
+          <div className="field">
+            <label className={"label has-text-left"} htmlFor="email">
+              Email
+            </label>
+            <div className="control">
+              <input
+                id="email"
+                className="input"
+                value={loginState.email}
+                onChange={(event) => {
+                  updateLoginState({
+                    ...loginState,
+                    email: event.target.value.toLowerCase().replace(/ /g, ""),
+                  });
+                }}
+                type="email"
+                required
+                placeholder="john.doe@mail.com"
+              />
+            </div>
+          </div>
+          <div className="field">
+            <label className="label has-text-left" htmlFor="password">
+              Password
+            </label>
+            <div className="control">
+              <input
+                id="password"
+                className="input"
+                value={loginState.password}
+                onChange={(event) => {
+                  updateLoginState({
+                    ...loginState,
+                    password: event.target.value.replace(/ /g, ""),
+                  });
+                }}
+                type="password"
+                required
+                placeholder="e.g *****"
+              />
+            </div>
+          </div>
+          {formState === formStateTypes.signup ? (
             <div className="field">
-              <label className="label has-text-left">Password</label>
+              <label className="label has-text-left" htmlFor="confirm-password">
+                Confirm Password
+              </label>
               <div className="control">
                 <input
-                  className={
-                    "input " +
-                    (this.renderErrorMsg("password") ? "is-danger" : "")
-                  }
-                  value={this.state.password}
+                  id="confirm-password"
+                  className={"input "}
+                  value={loginState.confirmPassword}
                   onChange={(event) => {
-                    this.setState({
-                      password: event.target.value.replace(/ /g, ""),
+                    updateLoginState({
+                      ...loginState,
+                      confirmPassword: event.target.value.replace(/ /g, ""),
                     });
-                    if (!this.setState.login) {
-                      this.setState({ login: true });
+                    if (!loginState.login) {
+                      updateLoginState({ ...loginState, login: true });
                     }
                   }}
                   type="password"
+                  required
                   placeholder="e.g *****"
                 />
               </div>
-              {this.renderErrorMsg("password")}
             </div>
-            {this.renderErrorMsg("login")}
-            <button
-              className={
-                "button is-primary m-t-10 " +
-                (this.state.isLoading ? "is-loading" : "")
+          ) : (
+            ""
+          )}
+          {errorMessage}
+          <button
+            className={
+              "button is-primary m-t-10 " +
+              (loginState.isLoading ? "is-loading" : "")
+            }
+            type="submit"
+          >
+            {formState === formStateTypes.login ? "Login" : "Sign Up"}
+          </button>
+        </form>
+        <div>
+          <p className="mb-2">
+            {formState === formStateTypes.login
+              ? "Don't have an account?"
+              : "Already have an account?"}
+          </p>
+          <button
+            className="button is-ghost"
+            type="button"
+            onClick={() => {
+              updateLoginState({
+                ...loginState,
+                name: "",
+                password: "",
+                confirmPassword: "",
+              });
+              if (formState === formStateTypes.login) {
+                setFormState(formStateTypes.signup);
+              } else {
+                setFormState(formStateTypes.login);
               }
-              type="submit"
-            >
-              Login
-            </button>
-          </form>
+            }}
+          >
+            {formState === formStateTypes.login ? "Create" : "Login"}
+          </button>
         </div>
       </div>
-    );
-  }
-}
-
-export default Login;
+      <div className="column is-5 login-desc-box is-flex is-flex-direction-column is-justify-content-center is-align-items-center">
+        <h2>Welcome to Resume Guru</h2>
+        <p className="mb-6">Quickly create, save and download your resume.</p>
+      </div>
+    </div>
+  );
+};

@@ -15,6 +15,7 @@ export const errors = {
   loginError: "Email or Password is Incorrect",
   isValidEmailError: "Please enter a valid Email",
   passwordError: "Please enter a Password",
+  confirmPasswordError: "Entered Passwords do not match",
 };
 
 export const formList = ["contact", "experience"];

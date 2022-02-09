@@ -84,3 +84,29 @@ export const userLoginMutation = gql`
     }
   }
 `;
+export const userRegisterMutation = gql`
+  mutation userRegister($email: String, $password: String, $name: String) {
+    userRegister(email: $email, password: $password, name: $name) {
+      user {
+        name
+        email
+        resumes {
+          name
+          email
+          address
+          phone
+          about
+          experience {
+            position
+            name
+            location
+            start
+            end
+            description
+          }
+        }
+      }
+      token
+    }
+  }
+`;

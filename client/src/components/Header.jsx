@@ -1,55 +1,73 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-export default class Header extends React.Component {
-  constructor(props) {
-    super(props);
-    this.title = this.props.title;
-  }
-  handleLoginLogout() {
-    if (this.props.user) {
+const Header = ({ title, user, logout }) => {
+  const handleLoginLogout = () => {
+    if (user) {
       localStorage.clear();
-      this.props.handleStateUpdate("user", '');
+      logout();
     }
-  }
+  };
 
-  render() {
-    return (
-      <header className="no-print">
-        <nav className="navbar p-l-20 p-r-20 p-t-10 p-b-10" role="navigation" aria-label="main navigation">
-          <div className="navbar-brand">
+  return (
+    <header className="no-print">
+      <nav
+        className="navbar p-l-20 p-r-20 p-t-10 p-b-10"
+        role="navigation"
+        aria-label="main navigation"
+      >
+        <div className="navbar-brand">
+          <div className="navbar-item">
+            <h1 className="title">
+              <span>Resume</span>
+              {title || " Guru"}
+            </h1>
+          </div>
+
+          <div
+            role="button"
+            className="navbar-burger burger"
+            aria-label="menu"
+            aria-expanded="false"
+            data-target="navbarBasicExample"
+          >
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </div>
+        </div>
+
+        <div id="navbarBasicExample" className="navbar-menu">
+          <div className="navbar-end">
+            {user ? (
+              <div className="navbar-item">
+                <Link to="/resume">Resume</Link>
+              </div>
+            ) : (
+              ""
+            )}
+
             <div className="navbar-item">
-              <h1 className="title"><span>Resume</span>{this.title || " Guru"}</h1>
-            </div>
-
-            <div role="button" className="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-              <span aria-hidden="true"></span>
-              <span aria-hidden="true"></span>
-              <span aria-hidden="true"></span>
-            </div>
-          </div>
-
-          <div id="navbarBasicExample" className="navbar-menu">
-            <div className="navbar-end">
-              <div className="navbar-item">
-                  Dashboard
-              </div>
-              <div className="navbar-item">
-                Resumes
-              </div>
-              <div className="navbar-item">
-                <div className="buttons">
-                  <div className="button is-primary">
-                    <strong>Sign up</strong>
-                  </div>
-                  <div className="button is-light" onClick={this.handleLoginLogout.bind(this)}>
-                    {this.props.user ? "Log out" : "Log in"}
-                  </div>
-                </div>
+              <div className="buttons">
+                {user ? (
+                  <button
+                    className="button is-link"
+                    onClick={handleLoginLogout}
+                  >
+                    <Link to="/login" className="has-text-white">
+                      {user ? "Log out" : "Log in"}
+                    </Link>
+                  </button>
+                ) : (
+                  ""
+                )}
               </div>
             </div>
           </div>
-        </nav>
-      </header>
-    )
-  }
-}
+        </div>
+      </nav>
+    </header>
+  );
+};
+
+export default Header;
