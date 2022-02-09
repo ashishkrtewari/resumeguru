@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./styles/App.scss";
 import Header from "./components/Header";
-import Login from "./components/Login";
+import LoginForm from "./components/Login";
 import { Sections } from "./lists";
 import { getUserByEmail } from "./queries";
 import {
@@ -78,7 +78,7 @@ const App = (props) => {
           <Route
             path="/login"
             element={
-              <Login
+              <LoginForm
                 {...props}
                 user={user}
                 handleUserUpdate={(e) => {
