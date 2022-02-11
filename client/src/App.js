@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import "./styles/App.scss";
 import Header from "./components/Header";
 import LoginForm from "./components/LoginForm";
 import { Sections } from "./lists";
-import { getUserByEmail } from "./queries";
+import { useLocalStorage } from "./hooks/useLocalStorage";
 import {
   BrowserRouter as Router,
   Routes,
@@ -23,20 +23,8 @@ const App = (props) => {
     title: section,
     switch: false,
   }));
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useLocalStorage("user", null);
 
-  const username = localStorage.getItem("email");
-  if (username) {
-    (async () => {
-      const user = await props.client.query({
-        query: getUserByEmail,
-        variables: {
-          email: username,
-        },
-      });
-      setUser(user.data.userByEmail);
-    })();
-  }
   const logout = () => {
     setUser(null);
   };
@@ -55,6 +43,7 @@ const App = (props) => {
     return (
       <RequireAuth user={user}>
         <ResumeBuilder
+          className="resume-builder"
           {...props}
           user={user}
           sections={sections}
@@ -73,7 +62,8 @@ const App = (props) => {
     <Router>
       <div className="App">
         <NotificationContainer />
-        <Header user={user} logout={() => logout()} />
+
+        {!user ? "" : <Header user={user} logout={() => logout()} />}
         <Routes>
           <Route
             path="/login"

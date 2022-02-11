@@ -22,7 +22,7 @@ export default ({ resume, handleResumeUpdate }) => {
   };
 
   return (
-    <div className="experience m-b-30 p-20">
+    <div className="experience pb-0">
       {resume.experience.map((item, index) => (
         <div
           className="field is-grouped is-grouped-multiline columns m-b-50 p-15"
@@ -34,7 +34,7 @@ export default ({ resume, handleResumeUpdate }) => {
           >
             &#10006;
           </button>
-          <div className="field column is-12">
+          <div className="field column is-6 is-12-mobile">
             <label className="label">Company Name</label>
             <div className="control">
               <input
@@ -48,21 +48,7 @@ export default ({ resume, handleResumeUpdate }) => {
               />
             </div>
           </div>
-          <div className="field column is-12">
-            <label className="label">Location</label>
-            <div className="control">
-              <input
-                className="input"
-                value={item.location}
-                onChange={(event) =>
-                  handleExperienceUpdate("location", index, event)
-                }
-                type="text"
-                placeholder="e.g. New York, USA"
-              />
-            </div>
-          </div>
-          <div className="field column is-12">
+          <div className="field column is-6 is-12-mobile">
             <label className="label">Title/Position</label>
             <div className="control">
               <input
@@ -76,7 +62,7 @@ export default ({ resume, handleResumeUpdate }) => {
               />
             </div>
           </div>
-          <div className="field column is-6">
+          <div className="field column is-6 is-12-mobile">
             <label className="label">Start Date</label>
             <div className="control">
               <input
@@ -90,7 +76,7 @@ export default ({ resume, handleResumeUpdate }) => {
               />
             </div>
           </div>
-          <div className="field column is-6">
+          <div className="field column is-6 is-12-mobile">
             <label className="label">End Date</label>
             <div className="control">
               <input
@@ -101,6 +87,20 @@ export default ({ resume, handleResumeUpdate }) => {
                 }
                 type="text"
                 placeholder="e.g. March, 2019"
+              />
+            </div>
+          </div>
+          <div className="field column is-6 is-12-mobile">
+            <label className="label">Location</label>
+            <div className="control">
+              <input
+                className="input"
+                value={item.location}
+                onChange={(event) =>
+                  handleExperienceUpdate("location", index, event)
+                }
+                type="text"
+                placeholder="e.g. New York, USA"
               />
             </div>
           </div>

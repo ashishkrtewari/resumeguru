@@ -188,7 +188,7 @@ export default (props) => {
           {errorMessage}
           <button
             className={
-              "button is-primary m-t-10 " +
+              "button is-dark m-t-10 " +
               (loginState.isLoading ? "is-loading" : "")
             }
             type="submit"
@@ -224,8 +224,11 @@ export default (props) => {
         </div>
       </div>
       <div className="column is-5 login-desc-box is-flex is-flex-direction-column is-justify-content-center is-align-items-center">
-        <h2>Welcome to Resume Guru</h2>
-        <p className="mb-6">Quickly create, save and download your resume.</p>
+        <h2>
+          <span>Welcome to</span>
+          <br></br>Resume Guru
+        </h2>
+        <p>Quickly create, save and download your resume.</p>
       </div>
     </div>
   );
