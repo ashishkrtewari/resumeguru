@@ -29,7 +29,7 @@ const FormSection = ({ resume, handleResumeUpdate }) => {
       id="form-section"
       className="no-print column is-12-mobile is-8-desktop is-offset-2-desktop p-l-50 p-r-50"
     >
-      <h1 className="title is-3 form-title">Complete Your Details</h1>
+      <h1 className="title is-3 form-title m-b-50">Complete Your Details</h1>
       <ContactForm
         resume={resume}
         handleInput={(type, event) => handleInput(type, event)}

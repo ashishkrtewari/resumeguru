@@ -22,10 +22,13 @@ export default function PreviewSection({
     handleUserUpdate(updatedUser);
   };
   useEffect(() => {
-    if (showPreview) {
-      return document.getElementById("form-section").classList.add("hide");
+    const formSection = document.getElementById("form-section");
+    if (formSection) {
+      if (showPreview) {
+        return formSection.classList.add("hide");
+      }
+      formSection.classList.remove("hide");
     }
-    document.getElementById("form-section").classList.remove("hide");
   }, [showPreview]);
   return (
     <React.Fragment>

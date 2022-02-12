@@ -2,7 +2,7 @@ import React from "react";
 
 export default ({ resume, handleInput }) => {
   return (
-    <div className="contact field is-grouped is-grouped-multiline columns m-b-30 p-15">
+    <div className="contact field is-grouped is-grouped-multiline columns m-b-50 p-15">
       <div className="field column is-6 is-12-mobile">
         <label className="label">Name</label>
         <div className="control">

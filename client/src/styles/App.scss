@@ -41,7 +41,9 @@ body {
   }
   .button {
     border-radius: 0 4px;
-    padding: 1.5rem;
+    @include until($desktop) {
+      padding: 1.5rem;
+    }
   }
 }
 .App {
@@ -117,12 +119,52 @@ header .navbar-brand {
   box-shadow: 1px 1px 7px -1px;
 }
 
+.contact.field {
+  &::before {
+    content: "Contact";
+  }
+}
+.experience > .field {
+  &::before {
+    content: "Experience";
+  }
+}
+.contact.field,
+.experience > .field {
+  position: relative;
+  &::before {
+    position: absolute;
+    color: white;
+    padding: 0 1rem;
+    top: 0;
+    transform-origin: left;
+    transform: translate(-0%, -100%);
+    left: 0;
+    font-weight: 500;
+    font-size: 0.9rem;
+    border-radius: 5px 5px 0 0;
+    background: $dark;
+  }
+}
+
 .experience {
   button.button.is-danger {
     position: absolute;
     right: 0;
     top: 0;
-    transform: translate(50%, 0%);
+    transform: translate(50%, -50%);
+    border-radius: 50%;
+    line-height: 1rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 1rem;
+    margin: 0;
+    @include until($desktop) {
+      width: 3.5rem;
+      height: 3.5rem;
+      font-size: 1.3rem;
+      padding-bottom: 1.2rem;
+    }
   }
   div {
     position: relative;
