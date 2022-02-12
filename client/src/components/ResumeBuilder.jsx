@@ -17,7 +17,7 @@ const ResumeBuilder = (props) => {
   }
   return (
     <React.Fragment>
-      <section className="columns">
+      <section className="container is-fluid p-0">
         <FormSection
           {...props}
           resume={resume}

@@ -71,7 +71,8 @@ export default function PreviewSection({
                 setShowPreview(!showPreview);
               }}
             >
-              Close Preview
+              <span className="is-hidden-mobile m-r-10">Close Preview</span>
+              <span>✖</span>
             </button>
           </div>
         </div>
