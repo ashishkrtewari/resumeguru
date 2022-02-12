@@ -70,7 +70,6 @@ export default (props) => {
         ];
       if (data.user) {
         let user = data.user;
-        updateLoginState({ ...loginState, login, error });
         props.handleUserUpdate(user);
         localStorage.setItem("token", data.token);
         localStorage.setItem("email", user.email);
@@ -80,7 +79,6 @@ export default (props) => {
     } else {
       updateLoginState({ ...loginState, error });
     }
-    updateLoginState({ ...loginState, isLoading: false });
   };
 
   if (props.user) {

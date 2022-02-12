@@ -25,9 +25,10 @@ export default function PreviewSection({
     const formSection = document.getElementById("form-section");
     if (formSection) {
       if (showPreview) {
-        return formSection.classList.add("hide");
+        formSection.classList.add("hide");
+      } else {
+        formSection.classList.remove("hide");
       }
-      formSection.classList.remove("hide");
     }
   }, [showPreview]);
   return (
@@ -64,7 +65,7 @@ export default function PreviewSection({
         <div className="title is-flex is-justify-content-space-between no-print p-r-50 p-l-50">
           Preview
           <div>
-            <button className="button mr-4 is-info" onClick={print}>
+            <button className="button mr-4 is-link" onClick={print}>
               Print
             </button>
             <button

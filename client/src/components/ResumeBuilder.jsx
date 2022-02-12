@@ -7,6 +7,9 @@ import PreviewSection from "./PreviewSection";
 const ResumeBuilder = (props) => {
   const [resume, setResume] = useState(() => {
     if (props.user.resumes?.length) {
+      window.scrollTo({
+        top: 0,
+      });
       return props.user.resumes[0];
     }
     return null;
