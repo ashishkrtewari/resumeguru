@@ -20,8 +20,15 @@ $control-border-width: 2px;
 
 $sizes: (0, 10, 15, 20, 25, 30, 50);
 $positions: (("t", "top"), ("r", "right"), ("b", "bottom"), ("l", "left"));
-$header-height: 76px;
 
+html,
+body {
+  font-size: 16px;
+  box-sizing: border-box;
+  @include until($desktop) {
+    font-size: 12px;
+  }
+}
 body {
   * {
     font-family: "Open Sans", sans-serif;
@@ -31,6 +38,10 @@ body {
   .input {
     color: $dark;
     font-weight: 500;
+  }
+  .button {
+    border-radius: 0 4px;
+    padding: 1.5rem;
   }
 }
 .App {
@@ -64,15 +75,12 @@ body {
 }
 
 #form-section {
-  padding-bottom: 100px;
+  padding-bottom: 6.25rem;
   @include until($tablet) {
-    padding-bottom: 200px;
+    padding-bottom: 12.5rem;
   }
   &.hide {
     display: none;
-  }
-  @include until($widescreen) {
-    // width: 100%;
   }
   label {
     text-align: left;
@@ -84,9 +92,12 @@ body {
 }
 
 .App > section {
-  margin-top: $header-height;
+  margin-top: 5.5rem;
   z-index: 0;
   position: relative;
+  @include until($tablet) {
+    margin-top: 6rem;
+  }
 }
 
 header {
@@ -94,6 +105,7 @@ header {
   top: 0;
   background: white;
   z-index: 1;
+  width: 100%;
 }
 header .navbar-brand {
   .title {
@@ -108,7 +120,9 @@ header .navbar-brand {
 .experience {
   button.button.is-danger {
     position: absolute;
-    right: -31px;
+    right: 0;
+    top: 0;
+    transform: translate(50%, 0%);
   }
   div {
     position: relative;
@@ -200,7 +214,7 @@ header .navbar-brand {
     bottom: 0;
     left: 0;
     right: 0;
-    padding: 0.5rem 5rem;
+    padding: 1rem 5rem;
     background: $white;
     box-shadow: 1px 1px 7px -1px;
   }

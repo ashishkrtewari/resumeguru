@@ -1,5 +1,3 @@
-$primary: #8a2ae4;
-
 $design1Color: #50e3c2;
 .title.name,
 .title.position {
@@ -18,6 +16,9 @@ $design1Color: #50e3c2;
     margin-bottom: 40px;
   }
   .contact-section {
+    @include until($desktop) {
+      flex-direction: column;
+    }
     display: flex;
     align-items: center;
     border-bottom: dotted 3px $design1Color;
@@ -30,6 +31,9 @@ $design1Color: #50e3c2;
       flex-direction: column;
       justify-content: flex-start;
       max-width: 50%;
+      @include until($desktop) {
+        max-width: 100%;
+      }
       & > div {
         display: flex;
         margin: 5px 0;
@@ -46,6 +50,9 @@ $design1Color: #50e3c2;
         margin-bottom: 0;
         flex-basis: 15%;
         text-align: right;
+        @include until($desktop) {
+          text-align: left;
+        }
       }
       span:last-of-type {
         width: 60%;
