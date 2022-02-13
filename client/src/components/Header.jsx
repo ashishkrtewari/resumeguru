@@ -19,8 +19,11 @@ const Header = ({ user, logout }) => {
         <div className="navbar-brand">
           <div className="navbar-item">
             <h1 className="title">
-              <span>Resume</span>
-              Guru
+              <span className="brand-text">
+                <span>R</span>
+                <span>esume</span>
+                <span className="ml-1">guru</span>
+              </span>
             </h1>
           </div>
         </div>

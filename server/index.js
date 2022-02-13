@@ -34,5 +34,5 @@ app.use(
 );
 
 app.listen(PORT, () => {
-  console.log("Resume Guru API running on port :", PORT);
+  console.log("Resume guru API running on port :", PORT);
 });

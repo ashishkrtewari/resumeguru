@@ -46,6 +46,19 @@ body {
     }
   }
 }
+.brand-text {
+  span {
+    color: $primary;
+  }
+  & span:first-of-type {
+    text-shadow: 0.05em 0 0 #f66;
+    font-size: 1.25em;
+  }
+  & span:first-of-type,
+  & span:nth-of-type(2) {
+    color: $blue;
+  }
+}
 .App {
   height: 100vh;
   text-align: center;
@@ -209,9 +222,7 @@ header .navbar-brand {
       margin-bottom: 20px;
       font-weight: 700;
       color: $primary;
-      span {
-        color: $dark;
-      }
+      color: $dark;
     }
     p {
       font-size: 2rem;

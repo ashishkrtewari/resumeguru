@@ -224,7 +224,12 @@ export default (props) => {
       <div className="column is-5 login-desc-box is-flex is-flex-direction-column is-justify-content-center is-align-items-center">
         <h2>
           <span>Welcome to</span>
-          <br></br>Resume Guru
+          <br></br>
+          <span className="brand-text">
+            <span>R</span>
+            <span>esume</span>
+            <span className="ml-1">guru</span>
+          </span>
         </h2>
         <p>Quickly create, save and download your resume.</p>
       </div>
