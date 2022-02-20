@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "react-notifications/lib/notifications.css";
 import { NotificationManager } from "react-notifications";
 import { Navigate, useLocation } from "react-router-dom";
 import { errors } from "../lists";

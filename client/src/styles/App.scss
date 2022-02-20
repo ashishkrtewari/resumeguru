@@ -309,5 +309,15 @@ header .navbar-brand {
     width: 100%;
   }
 }
+
+.notification-container {
+  text-align: left;
+  .notification-info {
+    background-color: $blue;
+  }
+  .notification-success {
+    background-color: $success;
+  }
+}
 // Templates
 @import "../templates/design1.scss";
