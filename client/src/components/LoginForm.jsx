@@ -1,7 +1,10 @@
 import React, { useState } from "react";
+import { NotificationManager } from "react-notifications";
 import { Navigate, useLocation } from "react-router-dom";
 import { errors } from "../lists";
 import { userLoginMutation, userRegisterMutation } from "../queries";
+import { User } from "../User.model";
+import BrandLogo from "./BrandLogo";
 
 export default (props) => {
   const formStateTypes = {
@@ -81,12 +84,29 @@ export default (props) => {
     }
   };
 
+  const continueWithoutLogin = () => {
+    const user = new User();
+    props.handleUserUpdate(user);
+    NotificationManager.info(
+      "All your changes will be saved locally on this device.",
+      "INFO"
+    );
+  };
+
   if (props.user) {
     return <Navigate to="/resume" state={{ from: location }} replace />;
   }
   return (
     <div className="login-wrapper is-flex is-justify-content-center is-align-items-stretch is-centered is-vcentered">
       <div className="login-container column is-7 is-flex-direction-column is-flex is-justify-content-center is-align-items-center">
+        <button
+          className="button is-ghost without-login-button"
+          type="button"
+          title="You will not be able to see your resume on other devices"
+          onClick={continueWithoutLogin}
+        >
+          Continue without login
+        </button>
         <form onSubmit={(event) => handleFormSubmit(event)}>
           {formState === formStateTypes.signup ? (
             <div className="field">
@@ -225,11 +245,7 @@ export default (props) => {
         <h2>
           <span>Welcome to</span>
           <br></br>
-          <span className="brand-text">
-            <span>R</span>
-            <span>esume</span>
-            <span className="ml-1">guru</span>
-          </span>
+          <BrandLogo />
         </h2>
         <p>Quickly create, save and download your resume.</p>
       </div>

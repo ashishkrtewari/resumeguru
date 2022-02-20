@@ -50,6 +50,7 @@ $design1Color: #50e3c2;
         margin-bottom: 0;
         flex-basis: 15%;
         text-align: right;
+        line-height: 1.5rem;
         @include until($desktop) {
           text-align: left;
         }
