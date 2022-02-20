@@ -205,7 +205,11 @@ header .navbar-brand {
   width: 60%;
   min-width: 20rem;
   margin: 0 auto;
-
+  .without-login-button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+  }
   .box {
     border: 1px solid whitesmoke;
     box-shadow: -5px 0 16px -5px #c8c8c8;

@@ -4,6 +4,14 @@ import BrandLogo from "./BrandLogo";
 
 const Header = ({ user, logout }) => {
   const handleLoginLogout = () => {
+    if (!user?.email) {
+      const response = window.confirm(
+        "If you go back to the Login/Signup page, your current resume date will be lost. Continue?"
+      );
+      if (!response) {
+        return;
+      }
+    }
     if (user) {
       localStorage.clear();
       logout();
@@ -29,7 +37,7 @@ const Header = ({ user, logout }) => {
             <div className="buttons">
               <button className="button is-link" onClick={handleLoginLogout}>
                 <Link to="/login" className="has-text-white">
-                  Logout
+                  {user.email ? "Logout" : "Signup"}
                 </Link>
               </button>
             </div>

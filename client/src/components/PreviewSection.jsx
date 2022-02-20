@@ -14,11 +14,12 @@ export default function PreviewSection({
 
   const save = async () => {
     const updatedUser = { ...user, resumes: [resume] };
-
-    await client.mutate({
-      mutation: updateUserMutation,
-      variables: { user: updatedUser },
-    });
+    if (updatedUser.email) {
+      await client.mutate({
+        mutation: updateUserMutation,
+        variables: { user: updatedUser },
+      });
+    }
     handleUserUpdate(updatedUser);
   };
   useEffect(() => {
