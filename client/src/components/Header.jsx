@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import BrandLogo from "./BrandLogo";
 
 const Header = ({ user, logout }) => {
   const handleLoginLogout = () => {
@@ -19,11 +20,7 @@ const Header = ({ user, logout }) => {
         <div className="navbar-brand">
           <div className="navbar-item">
             <h1 className="title">
-              <span className="brand-text">
-                <span>R</span>
-                <span>esume</span>
-                <span className="ml-1">guru</span>
-              </span>
+              <BrandLogo />
             </h1>
           </div>
         </div>
