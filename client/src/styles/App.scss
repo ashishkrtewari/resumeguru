@@ -312,6 +312,9 @@ header .navbar-brand {
 
 .notification-container {
   text-align: left;
+  .notification {
+    padding: 1.25rem 2.5rem 1.25rem 3.5rem;
+  }
   .notification-info {
     background-color: $blue;
   }
